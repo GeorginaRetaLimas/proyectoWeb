@@ -1,13 +1,17 @@
-/* auth.css actualizado */
+:root {
+  --color_bg_one: #ffbac4;
+  --color_bg_two: #f5acb7;
+}
+
 body {
   margin: 0;
   font-family: "Poppins", sans-serif;
   background: repeating-linear-gradient(
     90deg,
-    #e49da8,
-    #e49da8 80px,
-    #f0aab6 80px,
-    #f0aab6 160px
+    var(--color_bg_one),
+    var(--color_bg_one) 80px,
+    var(--color_bg_two) 80px,
+    var(--color_bg_two) 160px
   );
   justify-content: center;
   align-items: center;
