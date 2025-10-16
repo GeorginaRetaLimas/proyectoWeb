@@ -1,0 +1,136 @@
+/* auth.css actualizado */
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background: repeating-linear-gradient(
+    90deg,
+    #e49da8,
+    #e49da8 80px,
+    #f0aab6 80px,
+    #f0aab6 160px
+  );
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Logo centrado en el nav */
+.logo {
+  width: 400px;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  margin-top: 2%;
+  margin-bottom: 10px;
+}
+
+.login-box {
+  background-color: #fff8f2;
+  border-radius: 20px;
+  padding: 4rem 4.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+}
+
+/* Titulos */
+h1 {
+  color: #b35b5b;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+/* Labels */
+label {
+  font-weight: 500;
+  color: #633;
+  margin-bottom: 0.3rem;
+  display: block;
+  text-align: left;
+}
+
+/* Inputs */
+.form-control {
+  border: 1.5px solid #d8a7a7;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.form-control:focus {
+  border-color: #d37d7d;
+  box-shadow: 0 0 0 0.15rem rgba(211, 125, 125, 0.25);
+}
+
+/* Checkbox */
+.form-check-label {
+  color: #633;
+  font-size: 1rem;
+}
+
+/* Botones */
+.btn-login {
+  background-color: #d99b9b;
+  border: none;
+  color: white;
+  font-weight: 500;
+  border-radius: 12px;
+  padding: 1rem;
+  transition: background-color 0.3s;
+}
+
+.btn-login:hover {
+  background-color: #c98888;
+}
+
+/* Links */
+small {
+  color: #633;
+  font-size: 0.9rem;
+}
+
+small a {
+  color: #d37d7d;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+small a:hover {
+  text-decoration: underline;
+}
+
+/* Para ocultar las vistas */
+.d-none {
+  display: none !important;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .logo {
+    width: 500px;
+  }
+  
+  .login-box {
+    padding: 2.5rem 2rem;
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo {
+    width: 350px;
+  }
+  
+  .login-box {
+    padding: 2rem 1.5rem;
+  }
+  
+  h1 {
+    font-size: 1.5rem;
+  }
+}

@@ -4,25 +4,12 @@ console.log("Conexión exitosa al script de autentificacion de usuarios");
 // Variable global de usuario
 let usuarios = [];
 
-// Constantes de las vistas
-const vistaInicio = document.getElementById('vista_inicio');
-const vistaRegistro = document.getElementById('vista_registro');
-
-var inicioActivo;
-
 // Al momento de inicializar la página
 document.addEventListener("DOMContentLoaded", function(){
 
     // Verificamos si la sesion esta activa para limpiarla
     if(localStorage.getItem('sesion')){
         localStorage.setItem('sesion', null);
-    }
-
-    // Verificamos si estamos viendo el moal de inicio o registro
-    if(localStorage.getItem('inicioActivo') === true){
-        activarVistaInicio();
-    } else {
-        activarVistaRegistro();
     }
 
     // Verificamos usuarios en localStorage
@@ -73,3 +60,13 @@ function validarRegistro(){
 
     return true;
 }
+
+document.getElementById('link_registro').addEventListener('click', function() {
+    document.getElementById('vista_inicio').classList.add('d-none');
+    document.getElementById('vista_registro').classList.remove('d-none');
+});
+        
+document.getElementById('link_inicio').addEventListener('click', function() {
+    document.getElementById('vista_registro').classList.add('d-none');
+    document.getElementById('vista_inicio').classList.remove('d-none');
+});
