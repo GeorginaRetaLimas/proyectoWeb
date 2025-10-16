@@ -29,6 +29,13 @@ document.getElementById('form_Inicio').addEventListener('submit', function(e) {
     const nombreUsuario = document.getElementById("usuario").value;
     const contraseña = document.getElementById("contraseña").value;
 
+    // Validacion de si los datos son vacios
+    if (!nombreUsuario || !contraseña) {
+        Swal.fire('Advertencia', 'Rellene todos los campos primero', 'warning');
+        return;
+    }
+
+
     const usuarioExiste = usuarios.find(user => user.username === nombreUsuario);
 
     if(usuarioExiste){
@@ -45,9 +52,11 @@ document.getElementById('form_Inicio').addEventListener('submit', function(e) {
         } else {
             console.log(usuarioExiste);
             Swal.fire('Error', 'Contraseña incorrecta', 'error');
+            return;
         }
     } else {
         Swal.fire('Error', 'Datos incorrectos', 'error');
+        return;
     }
 });
 
@@ -69,16 +78,16 @@ document.getElementById('form_Registro').addEventListener('submit', function(e) 
         return;
     }
 
-    // Si la contraseña o la confirmación coinciden
-    if (contraseña !== confirmar) {
-        Swal.fire('Error', 'Las contraseñas no coinciden', 'error');
-        return;
-    }
-
     // Si el email es valido
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(correo)) {
         Swal.fire('Error', 'Ingrese un correo electrónico válido', 'error');
+        return;
+    }
+
+    // Si la contraseña o la confirmación coinciden
+    if (contraseña !== confirmar) {
+        Swal.fire('Error', 'Las contraseñas no coinciden', 'error');
         return;
     }
 
