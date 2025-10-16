@@ -11,24 +11,24 @@
 <body class="d-flex">
 
     <div id="vista_inicio">
-        <div class="modal modal-sheet modal_fondo_tema d-block bg-body-secondary p-4 py-md-5" tabindex="-1" role="dialog" id="modalSignin"> 
+        <div class="modal modal-sheet d-block bg-body-secondary p-4 py-md-5" tabindex="-1" role="dialog" id="modalSignin"> 
             <div class="modal-dialog modal-dialog-centered"> 
                 <div class="modal-content rounded-4 shadow"> 
                     <div class="modal-header p-5 pb-4 border-bottom-0 justify-content-center"> 
                         <h1 class="fw-bold mb-0 fs-2 text-center">
-                            Inicio de Sesión
+                            Iniciar Sesión
                         </h1> 
                     </div> 
 
                     <div class="modal-body p-5 pt-0"> 
-                        <form id=""> 
+                        <form id="form_Inicio"> 
                             <div class="form-floating mb-3"> 
-                                <input type="email" class="form-control rounded-3" id="correo"> 
-                                <label for="correo">Correo Eléctronico</label> 
+                                <input type="text" class="form-control rounded-3" id="usuario" placeholder="Correo"> 
+                                <label for="usuario">Usuario</label> 
                             </div> 
                             
                             <div class="form-floating mb-3"> 
-                                <input type="password" class="form-control rounded-3" id="contraseña"> 
+                                <input type="password" class="form-control rounded-3" id="contraseña" placeholder="Contraseña"> 
                                 <label for="contraseña">Contraseña</label> 
                             </div> 
                             
@@ -36,7 +36,51 @@
 
                             <hr>
 
-                            <small>¿No tienes cuenta? Registrate</small>    
+                            <small>¿No tienes cuenta? <a>Registrate</a></small>    
+                        </form> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="vista_registro" class="d-none">
+        <div class="modal modal-sheet d-block bg-body-secondary p-4 py-md-5" tabindex="-1" role="dialog" id="modalSignin"> 
+            <div class="modal-dialog modal-dialog-centered"> 
+                <div class="modal-content rounded-4 shadow"> 
+                    <div class="modal-header p-5 pb-4 border-bottom-0 justify-content-center"> 
+                        <h1 class="fw-bold mb-0 fs-2 text-center">
+                            Registrarte
+                        </h1> 
+                    </div> 
+
+                    <div class="modal-body p-5 pt-0"> 
+                        <form id="form_Registro"> 
+                            <div class="form-floating mb-3"> 
+                                <input type="text" class="form-control rounded-3" placeholder="" id="nombre_Usuario"> 
+                                <label for="Nombre de Usuario">Nombre de Usuario</label> 
+                            </div> 
+
+                            <div class="form-floating mb-3"> 
+                                <input type="email" class="form-control rounded-3" placeholder="" id="correo_registro"> 
+                                <label for="correo">Correo Eléctronico</label> 
+                            </div> 
+                            
+                            <div class="form-floating mb-3"> 
+                                <input type="password" class="form-control rounded-3" placeholder="" id="contraseña_registro"> 
+                                <label for="contraseña">Contraseña</label> 
+                            </div> 
+
+                            <div class="form-floating mb-3"> 
+                                <input type="password" class="form-control rounded-3" placeholder="" id="confirmar_registro"> 
+                                <label for="Confirmar Contraseña">Confirmar Contraseña</label> 
+                            </div> 
+                            
+                            <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Registrar</button> 
+
+                            <hr>
+
+                            <small>¿Ya tienes una cuenta? Inicia sesión</small>    
                         </form> 
                     </div>
                 </div>
