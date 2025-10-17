@@ -177,7 +177,7 @@ function mostrarProductos(productos) {
         return;
     }
     
-    // Si hay creamos las tarjetas
+    // Si hay creamos las tarjetas de cada producto
     productos.forEach(producto => {
         const tarjeta = crearTarjeta(producto);
         contenedor.appendChild(tarjeta);
@@ -187,4 +187,53 @@ function mostrarProductos(productos) {
 // Y que viva reutilizar codigo sjsjsssjs
 function filtrarPorCategoria() {
     buscarProductos();
+}
+
+// Ordenar productos
+function ordenarProductos(){
+    // Obtenemos el tipo de ordenamiento del select
+    const ordenSeleccionado = document.getElementById("ordenar").value;
+
+    // Primero aplicamos los filtros actuales
+    buscarProductos();
+
+    // Obtenemos los productso ya filtrados como en bucarProductos
+    const busqueda = document.getElementById("buscar").value.toLowerCase().trim();
+    const categoriaSeleccionada = document.getElementById("filtro-categoria").value.toLowerCase();
+    let productosFiltrados = productos;
+    
+    if (categoriaSeleccionada) {
+        productosFiltrados = productosFiltrados.filter(p => p.categoria.toLowerCase() === categoriaSeleccionada);
+    }
+    if (busqueda) {
+        productosFiltrados = productosFiltrados.filter(p => p.nombre.toLowerCase().includes(busqueda));
+    }
+
+    // Si hay un valor para orden Seleccionado
+    if (ordenSeleccionado) {
+        // Aplicar ordenamiento con un Switch
+        switch(ordenSeleccionado){
+            case 'precio-asc':
+                productosFiltrados.sort((a, b) => a.precio - b.precio);
+            break;
+            case 'precio-desc':
+                productosFiltrados.sort((a, b) => b.precio - a.precio);
+            break;
+            case 'stock-asc':
+                productosFiltrados.sort((a, b) => a.stock - b.stock);
+            break;
+            case 'stock-desc':
+                productosFiltrados.sort((a, b) => b.stock - a.stock);
+            break;
+            case 'nombre-asc':
+                productosFiltrados.sort((a, b) => a.nombre.localeCompare(b.nombre));
+            break;
+            case 'nombre-desc':
+                productosFiltrados.sort((a, b) => b.nombre.localeCompare(a.nombre));
+            break;
+        }
+    }
+
+    // Aplicamos esos nuevos filtros y mostramos
+    mostrarProductos(productosFiltrados);
 }

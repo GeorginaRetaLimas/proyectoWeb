@@ -79,6 +79,16 @@
             <option value="Galleta">Galleta</option>
             <option value="Cupcake">Cupcake</option>
         </select>
+
+        <select class="filter-select" id="ordenar" onchange="ordenarProductos()">
+            <option value="">Ordenar por</option>
+            <option value="precio-asc">Precio: Menor a Mayor</option>
+            <option value="precio-desc">Precio: Mayor a Menor</option>
+            <option value="stock-asc">Stock: Menor a Mayor</option>
+            <option value="stock-desc">Stock: Mayor a Menor</option>
+            <option value="nombre-asc">Nombre: A-Z</option>
+            <option value="nombre-desc">Nombre: Z-A</option>
+        </select>
     </div>
 
     <!-- Botón agregar -->
