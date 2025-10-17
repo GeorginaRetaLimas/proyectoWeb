@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro Productos</title>
     <link rel="shortcut icon" href="images/galletita-icon.png" type="image/x-icon">
 
-    <style>
+    <style> 
 /* Fuente general y colores suaves */
 body {
     font-family: 'Poppins', sans-serif;
@@ -43,12 +44,6 @@ body {
     cursor: pointer;
 }
 
-/* Logo Cookies Web */
-.logo {
-    font-size: 1.3rem;
-    font-weight: bold;
-}
-
 /* Contenedor del formulario */
 .form-container {
     display: flex;
@@ -72,9 +67,16 @@ body {
     top: 10px;
     right: 10px;
     background-color: #e4b3b0;
+    border: none;
     border-radius: 50%;
     padding: 5px 10px;
     cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.close-btn:hover {
+    background-color: #d9a5a1;
 }
 
 /* Etiquetas e inputs */
@@ -143,7 +145,7 @@ input, select {
         <!-- Formulario de registro -->
         <div class="form-container">
             <form class="form">
-                <div class="close-btn">✕</div>
+                <button type="button" class="close-btn" onclick="cerrarFormulario()">✕</button>
 
                 <!-- Campo: Nombre del postre -->
                 <label for="nombre">Nombre del postre</label>
@@ -155,9 +157,9 @@ input, select {
                         <label for="categoria">Categoría</label>
                         <select id="categoria">
                             <option value="">Selecciona</option>
-                            <option value="galleta">Galleta</option>
-                            <option value="pastel">Pastel</option>
-                            <option value="cupcake">Cupcake</option>
+                            <option value="Galleta">Galleta</option>
+                            <option value="Pastel">Pastel</option>
+                            <option value="Cupcake">Cupcake</option>
                         </select>
                     </div>
                     <div class="col">
@@ -170,7 +172,7 @@ input, select {
                 <div class="row">
                     <div class="col">
                         <label for="precio">Precio</label>
-                        <input  id="precio" placeholder="">
+                        <input type="number" id="precio" placeholder="" step="0.01" min="0">
                     </div>
                     <div class="col">
                         <label for="stock">Stock</label>

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Almacén de Productos</title>
+    <link rel="shortcut icon" href="images/galletita-icon.png" type="image/x-icon">
+    <style>
+        /* Reinicia estilos por defecto del navegador */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #fff6f2;
+        }
+
+        /* Encabezado superior con logo y título */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #e4b3b0;
+            padding: 3px;
+            color: #5a2d2d;
+            height: 150px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .menu-icon {
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .logo img {
+            max-width: 300px;
+            height: auto;
+        }
+
+        /* Barra de búsqueda */
+        .search-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 30px 40px;
+        }
+
+        .search-input {
+            flex: 1;
+            max-width: 400px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 25px;
+            background-color: white;
+            font-size: 14px;
+        }
+
+        .search-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #d19a9a;
+        }
+
+        .filter-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #5a2d2d;
+        }
+
+        /* Botón para agregar productos */
+        .btn-agregar {
+            background-color: #d19a9a;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.3s;
+            margin: 0 40px;
+        }
+
+        .btn-agregar:hover {
+            background-color: #c68a8a;
+        }
+
+        /* Grid responsivo para las tarjetas */
+        .container-productos {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            padding: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Tarjeta individual del producto */
+        .tarjeta {
+            background-color: #fae8e2;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tarjeta:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        /* Imagen del producto en la tarjeta */
+        .imagen-producto {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            background-color: #faf0eb;
+        }
+
+        /* Contenido de texto de la tarjeta */
+        .contenido-tarjeta {
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .nombre-producto {
+            font-size: 16px;
+            font-weight: 600;
+            color: #4b2c2c;
+            margin-bottom: 10px;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+        }
+
+        .info-producto {
+            font-size: 12px;
+            color: #7a5555;
+            margin-bottom: 8px;
+        }
+
+        .precio {
+            font-size: 18px;
+            font-weight: bold;
+            color: #d19a9a;
+            margin-bottom: 5px;
+        }
+
+        .stock {
+            font-size: 12px;
+            color: #a0695b;
+            margin-bottom: 15px;
+        }
+
+        /* Botones de editar y eliminar */
+        .botones {
+            display: flex;
+            gap: 10px;
+            margin-top: auto;
+        }
+
+        .btn-editar, .btn-eliminar {
+            flex: 1;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-editar {
+            background-color: #d19a9a;
+            color: #3b1f1f;
+        }
+
+        .btn-editar:hover {
+            background-color: #c68a8a;
+        }
+
+        .btn-eliminar {
+            background-color: #e4b3b0;
+            color: #3b1f1f;
+        }
+
+        .btn-eliminar:hover {
+            background-color: #d9a5a1;
+        }
+
+        /* Mensaje cuando no hay productos */
+        .vacio {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
+            color: #7a5555;
+            font-size: 18px;
+        }
+
+        /* Modal de confirmación */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal.activo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-contenido {
+            background-color: #fae8e2;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .modal-titulo {
+            font-size: 20px;
+            font-weight: 600;
+            color: #4b2c2c;
+            margin-bottom: 20px;
+        }
+
+        .modal-botones {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-confirmar, .btn-cancelar {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-confirmar {
+            background-color: #d19a9a;
+            color: #3b1f1f;
+        }
+
+        .btn-confirmar:hover {
+            background-color: #c68a8a;
+        }
+
+        .btn-cancelar {
+            background-color: #e4b3b0;
+            color: #3b1f1f;
+        }
+
+        .btn-cancelar:hover {
+            background-color: #d9a5a1;
+        }
+
+        /* Responsive para dispositivos móviles */
+        @media (max-width: 768px) {
+            .container-productos {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 20px;
+                padding: 20px;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .logo img {
+                max-width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <div class="menu-icon">☰</div>
+            <h1>Almacén de Productos</h1>
+        </div>
+        <div class="logo">
+            <img src="images/logo.png" alt="Cookies Web">
+        </div>
+    </header>
+
+    <!-- Barra de búsqueda -->
+    <div class="search-container">
+        <input type="text" class="search-input" placeholder="Buscar producto" id="buscar">
+    </div>
+
+    <!-- Botón agregar -->
+    <div style="margin: 0 40px; margin-bottom: 20px;">
+        <button class="btn-agregar" onclick="abrirFormulario()">+ Agregar Producto</button>
+    </div>
+
+    <!-- Contenedor de productos -->
+    <div class="container-productos" id="contenedor-productos">
+        <!-- Las tarjetas se generarán aquí -->
+    </div>
+
+    <!-- Modal para eliminar -->
+    <div class="modal" id="modal-eliminar">
+        <div class="modal-contenido">
+            <div class="modal-titulo">¿Está seguro de que desea eliminar este producto?</div>
+            <p style="color: #7a5555; margin-bottom: 20px;">Esta acción no se puede deshacer.</p>
+            <div class="modal-botones">
+                <button class="btn-cancelar" onclick="cerrarModal()">Cancelar</button>
+                <button class="btn-confirmar" onclick="confirmarEliminacion()">Eliminar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="mostrarProductos.js"></script>
+</body>
+</html>
