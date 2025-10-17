@@ -131,34 +131,62 @@ document.addEventListener("click", (event) => {
 
 /* Parte de Gina pero si truena ya no es Gina jssjshsbsjss */
 
-// Función para buscar un producto
-function buscarProductos(){
-    // Obtenemos lo que este en el input de buscar y lo hacemos minusculas
+// Función para buscar, filtrar y ordenar
+function aplicarFiltros() {
+    // Obtenemos todos los valores de los filtros de contenido
     const busqueda = document.getElementById("buscar").value.toLowerCase().trim();
-
-    // Obtenemos la categoria que este seleccionada en ese momento
     const categoriaSeleccionada = document.getElementById("filtro-categoria").value.toLowerCase();
+    const ordenSeleccionado = document.getElementById("ordenar").value;
 
-    // Pasamos todos los productos a los productosFiltrados
-    let productosFiltrados = productos;
+    // Partimos de todos los productos
+    let productosFiltrados = [...productos]; // Copiamos el array por si acaso
 
-    // Si categorias no es vacia
-    if(categoriaSeleccionada){
-        // Primero filtramos por los productos cuya categoria coincida con la seleccionada
-        productosFiltrados = productosFiltrados.filter(p => p.categoria.toLowerCase() === categoriaSeleccionada);
+    // Primero filtramos por categoria
+    if (categoriaSeleccionada) {
+        productosFiltrados = productosFiltrados.filter(p => p.categoria.toLowerCase() === categoriaSeleccionada
+        );
     }
 
-    // Si busqueda no es vacio
+    // Buscamos a traves del nombre
     if (busqueda) {
-        // Filtramos los productos por los productos cuyo nombre coincida por el buscador
-        productosFiltrados = productosFiltrados.filter(p => p.nombre.toLowerCase().includes(busqueda));
+        productosFiltrados = productosFiltrados.filter(p => 
+            p.nombre.toLowerCase().includes(busqueda)
+        );
     }
 
+    // Y ordenamos segun la seleccion
+    if (ordenSeleccionado) {
+        switch(ordenSeleccionado) {
+            case 'precio-asc':
+                // Si la resta da resultado de la resta da negatico entonces a va primero dejando a A como la mayor
+                productosFiltrados.sort((a, b) => a.precio - b.precio);
+            break;
+            case 'precio-desc':
+                // Si la resta da resultado de la resta da positivo entonces a va primero dejando a A como la menor
+                productosFiltrados.sort((a, b) => b.precio - a.precio);
+            break;
+            case 'stock-asc':
+                productosFiltrados.sort((a, b) => a.stock - b.stock);
+            break;
+            case 'stock-desc':
+                productosFiltrados.sort((a, b) => b.stock - a.stock);
+            break;
+            case 'nombre-asc':
+                // localCompare compara strings con la misma logica de arriba pero para letras
+                productosFiltrados.sort((a, b) => a.nombre.localeCompare(b.nombre));
+            break;
+            case 'nombre-desc':
+                productosFiltrados.sort((a, b) => b.nombre.localeCompare(a.nombre));
+            break;
+        }
+    }
+
+    // Mostramos los resultados
     mostrarProductos(productosFiltrados);
 
-    // Si no hay productos filtrados y si hay datos
+    // Pero si no hay resultados y si hay busqueda o categorias seleccionadas
     if (productosFiltrados.length === 0 && (busqueda || categoriaSeleccionada)) {
-        //Traemos el contenedor y mostramos un mensaje
+        // Tomamos el contenedor y mostramos un mensaje
         const contenedor = document.getElementById("contenedor-productos");
         contenedor.innerHTML = '<div class="vacio"><i class="bi bi-cup-hot"></i> No se encontraron productos que coincidan con tu búsqueda</div>';
     }
@@ -182,58 +210,4 @@ function mostrarProductos(productos) {
         const tarjeta = crearTarjeta(producto);
         contenedor.appendChild(tarjeta);
     });
-}
-
-// Y que viva reutilizar codigo sjsjsssjs
-function filtrarPorCategoria() {
-    buscarProductos();
-}
-
-// Ordenar productos
-function ordenarProductos(){
-    // Obtenemos el tipo de ordenamiento del select
-    const ordenSeleccionado = document.getElementById("ordenar").value;
-
-    // Primero aplicamos los filtros actuales
-    buscarProductos();
-
-    // Obtenemos los productso ya filtrados como en bucarProductos
-    const busqueda = document.getElementById("buscar").value.toLowerCase().trim();
-    const categoriaSeleccionada = document.getElementById("filtro-categoria").value.toLowerCase();
-    let productosFiltrados = productos;
-    
-    if (categoriaSeleccionada) {
-        productosFiltrados = productosFiltrados.filter(p => p.categoria.toLowerCase() === categoriaSeleccionada);
-    }
-    if (busqueda) {
-        productosFiltrados = productosFiltrados.filter(p => p.nombre.toLowerCase().includes(busqueda));
-    }
-
-    // Si hay un valor para orden Seleccionado
-    if (ordenSeleccionado) {
-        // Aplicar ordenamiento con un Switch
-        switch(ordenSeleccionado){
-            case 'precio-asc':
-                productosFiltrados.sort((a, b) => a.precio - b.precio);
-            break;
-            case 'precio-desc':
-                productosFiltrados.sort((a, b) => b.precio - a.precio);
-            break;
-            case 'stock-asc':
-                productosFiltrados.sort((a, b) => a.stock - b.stock);
-            break;
-            case 'stock-desc':
-                productosFiltrados.sort((a, b) => b.stock - a.stock);
-            break;
-            case 'nombre-asc':
-                productosFiltrados.sort((a, b) => a.nombre.localeCompare(b.nombre));
-            break;
-            case 'nombre-desc':
-                productosFiltrados.sort((a, b) => b.nombre.localeCompare(a.nombre));
-            break;
-        }
-    }
-
-    // Aplicamos esos nuevos filtros y mostramos
-    mostrarProductos(productosFiltrados);
 }

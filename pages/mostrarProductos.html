@@ -70,17 +70,17 @@
     <!-- Barra de búsqueda -->
     <div class="search-container">
         <div class="search-wrapper">
-            <input type="text" class="search-input" placeholder="Buscar producto por nombre..." id="buscar" oninput="buscarProductos()">
-            <button class="search-btn" onclick="buscarProductos()"><i class="bi bi-search"></i></button>
+            <input type="text" class="search-input" placeholder="Buscar producto por nombre..." id="buscar" oninput="aplicarFiltros()">
+            <button class="search-btn" onclick="aplicarFiltros()"><i class="bi bi-search"></i></button>
         </div>
-        <select class="filter-select" id="filtro-categoria" onchange="filtrarPorCategoria()">
+        <select class="filter-select" id="filtro-categoria" onchange="aplicarFiltros()">
             <option value="">Todas las categorías</option>
             <option value="Pastel">Pastel</option>
             <option value="Galleta">Galleta</option>
             <option value="Cupcake">Cupcake</option>
         </select>
 
-        <select class="filter-select" id="ordenar" onchange="ordenarProductos()">
+        <select class="filter-select" id="ordenar" onchange="aplicarFiltros()">
             <option value="">Ordenar por</option>
             <option value="precio-asc">Precio: Menor a Mayor</option>
             <option value="precio-desc">Precio: Mayor a Menor</option>
