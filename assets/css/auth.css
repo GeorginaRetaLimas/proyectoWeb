@@ -13,43 +13,58 @@ body {
     var(--color_bg_two) 80px,
     var(--color_bg_two) 160px
   );
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
+  padding: 10px;
+  box-sizing: border-box; 
 }
 
 /* Logo centrado en el nav */
 .logo {
-  width: 400px;
+  width: 100%;
+  max-width: 370px; 
+  height: auto;
 }
 
 nav {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100px;
-  margin-top: 2%;
-  margin-bottom: 10px;
+  height: auto; 
+  margin-top: 1%;
+  margin-bottom: 8px;
+  padding: 0 10px;
+}
+
+.content {
+  width: 100%;
+  padding: 0 10px;
+  box-sizing: border-box;
+
 }
 
 .login-box {
   background-color: #fff8f2;
   border-radius: 20px;
-  padding: 4rem 4.5rem;
+  padding: 2rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 600px;
   text-align: center;
+  box-sizing: border-box; 
+  margin: 0 auto;
 }
 
-/* Titulos */
 h1 {
   color: #b35b5b;
   font-weight: 600;
   margin-bottom: 1.5rem;
+  font-size: clamp(1.5rem, 4vw, 2rem);
 }
 
-/* Labels */
 label {
   font-weight: 500;
   color: #633;
@@ -62,8 +77,10 @@ label {
 .form-control {
   border: 1.5px solid #d8a7a7;
   border-radius: 10px;
-  padding: 1rem;
+  padding: 0.70rem;
   margin-bottom: 1rem;
+  width: 100%;
+  box-sizing: border-box;/
 }
 
 .form-control:focus {
@@ -71,28 +88,27 @@ label {
   box-shadow: 0 0 0 0.15rem rgba(211, 125, 125, 0.25);
 }
 
-/* Checkbox */
 .form-check-label {
   color: #633;
-  font-size: 1rem;
+  font-size: 0.9rem; 
 }
 
-/* Botones */
 .btn-login {
   background-color: #d99b9b;
   border: none;
   color: white;
   font-weight: 500;
   border-radius: 12px;
-  padding: 1rem;
+  padding: 0.65rem;
   transition: background-color 0.3s;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .btn-login:hover {
   background-color: #c98888;
 }
 
-/* Links */
 small {
   color: #633;
   font-size: 0.9rem;
@@ -108,33 +124,79 @@ small a:hover {
   text-decoration: underline;
 }
 
-/* Para ocultar las vistas */
 .d-none {
   display: none !important;
 }
 
-/* Responsividad */
 @media (max-width: 768px) {
+  body {
+    padding: 5px;
+  }
+  
   .logo {
-    width: 500px;
+    max-width: 300px; 
   }
   
   .login-box {
-    padding: 2.5rem 2rem;
-    max-width: 90%;
+    padding: 1.3rem; 
+    max-width: 95%;
+  }
+  
+  nav {
+    margin-top: 5%;
+    margin-bottom: 5%;
   }
 }
 
 @media (max-width: 480px) {
+  body {
+    padding: 5px;
+  }
+  
   .logo {
-    width: 350px;
+    max-width: 250px;
   }
   
   .login-box {
-    padding: 2rem 1.5rem;
+    padding: 1rem;
+    max-width: 100%;
+    border-radius: 12px;
   }
   
   h1 {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+  
+  .form-control {
+    padding: 0.6rem;
+    margin-bottom: 0.8rem;
+  }
+  
+  .btn-login {
+    padding: 0.6rem;
+  }
+  
+  nav {
+    margin-top: 10%;
+    margin-bottom: 5%;
+  }
+}
+
+@media (max-width: 320px) {
+  .login-box {
+    padding: 0.8rem;
+  }
+  
+  h1 {
+    font-size: 1.2rem;
+  }
+  
+  .form-check-label {
+    font-size: 0.8rem;
+  }
+  
+  small {
+    font-size: 0.8rem;
   }
 }
