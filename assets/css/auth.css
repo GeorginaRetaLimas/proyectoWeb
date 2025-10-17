@@ -8,10 +8,10 @@ body {
   font-family: "Poppins", sans-serif;
   background: repeating-linear-gradient(
     90deg,
-    var(--color_bg_one),
-    var(--color_bg_one) 80px,
-    var(--color_bg_two) 80px,
-    var(--color_bg_two) 160px
+    #f2a6b3,
+    #f2a6b3 80px,
+    #f4b0bd 80px,
+    #f4b0bd 160px
   );
   display: flex;
   flex-direction: column;

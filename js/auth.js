@@ -46,8 +46,8 @@ document.getElementById('form_Inicio').addEventListener('submit', function(e) {
 
             // Función para que después de 3 segundos mande a dashboard 
             setTimeout(function() {
-                console.log("Redirigiendo a dashboard...");
-                window.location.href = "dashboard.html";
+                console.log("Redirigiendo a lista Productos...");
+                window.location.href = "mostrarProductos.html";
             }, 3000);
         } else {
             console.log(usuarioExiste);
