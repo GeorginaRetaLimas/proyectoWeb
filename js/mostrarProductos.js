@@ -1,6 +1,8 @@
 // Variable global para almacenar el ID del producto que se va a eliminar
 let productoAEliminar = null;
 
+let productos = [];
+
 // Ejecuta cargarProductos cuando el DOM está completamente cargado
 document.addEventListener("DOMContentLoaded", () => {
     cargarProductos();
@@ -9,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // Obtiene los productos del localStorage, limpia el contenedor y genera las tarjetas
 function cargarProductos() {
     // Obtiene el array de productos desde localStorage, si no existe retorna un array vacío
-    const productos = JSON.parse(localStorage.getItem("productos")) || [];
+    productos = JSON.parse(localStorage.getItem("productos")) || [];
     
     // Obtiene el elemento contenedor donde se mostrarán las tarjetas
     const contenedor = document.getElementById("contenedor-productos");
@@ -126,3 +128,63 @@ document.addEventListener("click", (event) => {
         cerrarModal();
     }
 });
+
+/* Parte de Gina pero si truena ya no es Gina jssjshsbsjss */
+
+// Función para buscar un producto
+function buscarProductos(){
+    // Obtenemos lo que este en el input de buscar y lo hacemos minusculas
+    const busqueda = document.getElementById("buscar").value.toLowerCase().trim();
+
+    // Obtenemos la categoria que este seleccionada en ese momento
+    const categoriaSeleccionada = document.getElementById("filtro-categoria").value.toLowerCase();
+
+    // Pasamos todos los productos a los productosFiltrados
+    let productosFiltrados = productos;
+
+    // Si categorias no es vacia
+    if(categoriaSeleccionada){
+        // Primero filtramos por los productos cuya categoria coincida con la seleccionada
+        productosFiltrados = productosFiltrados.filter(p => p.categoria.toLowerCase() === categoriaSeleccionada);
+    }
+
+    // Si busqueda no es vacio
+    if (busqueda) {
+        // Filtramos los productos por los productos cuyo nombre coincida por el buscador
+        productosFiltrados = productosFiltrados.filter(p => p.nombre.toLowerCase().includes(busqueda));
+    }
+
+    mostrarProductos(productosFiltrados);
+
+    // Si no hay productos filtrados y si hay datos
+    if (productosFiltrados.length === 0 && (busqueda || categoriaSeleccionada)) {
+        //Traemos el contenedor y mostramos un mensaje
+        const contenedor = document.getElementById("contenedor-productos");
+        contenedor.innerHTML = '<div class="vacio"><i class="bi bi-cup-hot"></i> No se encontraron productos que coincidan con tu búsqueda</div>';
+    }
+}
+
+// Funcion que muestra los productos filtrados
+function mostrarProductos(productos) {
+    // Traemos el contendor
+    const contenedor = document.getElementById("contenedor-productos");
+    contenedor.innerHTML = "";
+    
+
+    // Si no hay nada
+    if (productos.length === 0) {
+        contenedor.innerHTML = '<div class="vacio"><i class="bi bi-cup-hot"></i> No hay productos registrados</div>';
+        return;
+    }
+    
+    // Si hay creamos las tarjetas
+    productos.forEach(producto => {
+        const tarjeta = crearTarjeta(producto);
+        contenedor.appendChild(tarjeta);
+    });
+}
+
+// Y que viva reutilizar codigo sjsjsssjs
+function filtrarPorCategoria() {
+    buscarProductos();
+}

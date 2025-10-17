@@ -70,14 +70,14 @@
     <!-- Barra de búsqueda -->
     <div class="search-container">
         <div class="search-wrapper">
-            <input type="text" class="search-input" placeholder="Buscar producto por nombre..." id="buscar">
+            <input type="text" class="search-input" placeholder="Buscar producto por nombre..." id="buscar" oninput="buscarProductos()">
             <button class="search-btn" onclick="buscarProductos()"><i class="bi bi-search"></i></button>
         </div>
         <select class="filter-select" id="filtro-categoria" onchange="filtrarPorCategoria()">
             <option value="">Todas las categorías</option>
-            <option value="Galleta">Galletas</option>
-            <option value="Pastel">Pasteles</option>
-            <option value="Cupcake">Cupcakes</option>
+            <option value="Pastel">Pastel</option>
+            <option value="Galleta">Galleta</option>
+            <option value="Cupcake">Cupcake</option>
         </select>
     </div>
 
