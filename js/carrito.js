@@ -18,12 +18,11 @@ function cargarCarrito() {
     // Mostramos el carrito del usuario
     mostrarCarrito(carritoUsuario);
 
-    // Calculamos el totañ
+    // Calculamos el total
     calcularTotal();
-
 }
 
-// Funcion donde mostramos lo que hay en carrtio en la tabla
+// Funcion donde mostramos lo que hay en carrito en la tabla
 function mostrarCarrito(items) {
     const tbody = document.getElementById("tabla-carrito-body");
     const vacio = document.getElementById("carrito-vacio");
@@ -79,7 +78,7 @@ function cambiarCantidad(itemId, cambio) {
 
 // Funcion para eliminar item
 function eliminarItem(itemId) {
-    // Mostramos una pantalla para pedir confimación
+    // Mostramos una pantalla para pedir confirmación
     Swal.fire({
         title: '¿Eliminar producto carrito?',
         text: "¿Estás seguro de que quieres eliminar este producto del carrito?",
@@ -90,7 +89,7 @@ function eliminarItem(itemId) {
         confirmButtonText: 'Eliminar',
         cancelButtonText: 'Cancelar'
     }).then((result) => {
-        // Si se confima
+        // Si se confirma
         if (result.isConfirmed) {
             // Obtenemos el producto del carrito
             carritos = carritos.filter(item => item.id !== itemId);
@@ -98,7 +97,7 @@ function eliminarItem(itemId) {
             // Volvemos a guardar en localstorage
             localStorage.setItem("carritos", JSON.stringify(carritos));
             
-            // Definimos el carrito de usario según los productos que tienen su id
+            // Definimos el carrito de usuario según los productos que tienen su id
             const carritoUsuario = carritos.filter(item => item.id_usuario === usuarioSesion.id_usuario);
 
             // Volvemos a dibujar la tabla y calcular
@@ -143,11 +142,51 @@ function confirmarPedido() {
         return;
     }
 
-    // Generar folio único con la fecga
-    const folio = 'Coockies-' + Date.now();
+    let productos = JSON.parse(localStorage.getItem("productos")) || [];
+    let errorStock = false;
+    let mensajeError = "";
+
+    // Recorremos cada producto
+    for (let item of carritoUsuario) {
+        const producto = productos.find(p => p.id === item.id_producto);
+        
+        if (!producto) {
+            mensajeError = `El producto ${item.nombre} ya no existe`;
+            errorStock = true;
+            break;
+        }
+
+        // checamos los stocks segun todos los carritos
+        const cantidadEnCarritos = carritos
+            .filter(c => c.id_producto === item.id_producto)
+            .reduce((total, c) => total + c.cantidad, 0);
+
+        if (cantidadEnCarritos > producto.stock) {
+            mensajeError = `No hay suficiente stock de ${item.nombre}. Disponible: ${producto.stock}`;
+            errorStock = true;
+            break;
+        }
+    }
+
+    if (errorStock) {
+        Swal.fire({
+            icon: "error",
+            title: "Error en el pedido",
+            text: mensajeError
+        });
+        return;
+    }
+
+    // Generar folio único con la fecha
+    const folio = 'Cookies-' + Date.now();
 
     // Obtenemos la fecha
     const fecha = new Date().toLocaleString();
+
+    // Calculamos correctamente el total -> subtotal + IVA
+    const subtotalPedido = carritoUsuario.reduce((sum, item) => sum + item.subtotal, 0);
+    const ivaPedido = carritoUsuario.reduce((sum, item) => sum + item.iva, 0);
+    const totalPedido = subtotalPedido + ivaPedido;
 
     // Creamos pedido
     const pedido = {
@@ -156,11 +195,26 @@ function confirmarPedido() {
         id_usuario: usuarioSesion.id_usuario,
         usuario: usuarioSesion.username,
         items: [...carritoUsuario], // copiamos los productos del carrito
-        total: carritoUsuario.reduce((sum, item) => sum + item.subtotal, 0)
-        //estado: 'entregado'
+        subtotal: subtotalPedido,
+        iva: ivaPedido,
+        total: totalPedido
     };
 
     console.log(pedido);
+
+    // Descontamos el stock de los productos
+    carritoUsuario.forEach(item => {
+        const producto = productos.find(p => p.id === item.id_producto);
+        if (producto) {
+            producto.stock -= item.cantidad;
+            
+            // No permitir stock negativo
+            if (producto.stock < 0) producto.stock = 0;
+        }
+    });
+
+    // Guardamos los productos actualizados en localStorage
+    localStorage.setItem("productos", JSON.stringify(productos));
 
     // Guardamos el pedido en localStorage
     let pedidos = JSON.parse(localStorage.getItem("pedidos")) || [];
@@ -178,7 +232,9 @@ function confirmarPedido() {
             <div class="text-start">
                 <p><strong>Folio:</strong> ${folio}</p>
                 <p><strong>Fecha:</strong> ${fecha}</p>
-                <p><strong>Total:</strong> $${pedido.total.toFixed(2)}</p>
+                <p><strong>Subtotal:</strong> $${subtotalPedido.toFixed(2)}</p>
+                <p><strong>IVA:</strong> $${ivaPedido.toFixed(2)}</p>
+                <p><strong>Total:</strong> $${totalPedido.toFixed(2)}</p>
                 <p><strong>Productos:</strong> ${pedido.items.length}</p>
             </div>
         `,
@@ -219,4 +275,6 @@ function vaciarCarrito() {
     });
 }
 
-//Bitacora de gina: los stock me estan ganando, aunque les puse muchas cosas no salen bien pipipipi
+function cambiarCantidad(itemId, cambio) {
+    
+}

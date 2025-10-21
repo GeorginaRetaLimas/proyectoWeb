@@ -933,3 +933,14 @@ input:focus, select:focus {
         padding: 0 10px;
     }
 }
+
+.stock-bajo {
+    background-color: #ffe4e4 !important;
+    color: #c62828 !important;
+    font-weight: 600;
+    border: 1px solid #ff9999;
+}
+
+.stock-bajo i {
+    color: #c62828;
+}

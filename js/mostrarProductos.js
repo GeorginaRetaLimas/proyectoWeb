@@ -4,7 +4,7 @@ let productoAEliminar = null;
 let productos = [];
 let carritos = [];
 
-// Ejecuta cargarProductos cuando el DOM está completamente cargado
+// Ejecuta cargar Productos cuando el DOM está completamente cargado
 document.addEventListener("DOMContentLoaded", () => {
     cargarProductos();
 });
@@ -29,15 +29,37 @@ function cargarProductos() {
     // Recorre cada producto y crea una tarjeta para cada uno
     productos.forEach(producto => {
         const tarjeta = crearTarjeta(producto);
-        contenedor.appendChild(tarjeta);
+        if (tarjeta.children.length > 0) {
+            contenedor.appendChild(tarjeta);
+        }
     });
 }
 
 // Crea un elemento HTML con la estructura de la tarjeta del producto
 function crearTarjeta(producto) {
+    // Calcular stock disponible
+    const cantidadEnCarritos = carritos
+        .filter(item => item.id_producto === producto.id)
+        .reduce((total, item) => total + item.cantidad, 0);
+    
+    const stockDisponible = producto.stock - cantidadEnCarritos;
+
+    // No mostramos si no hay stock
+    if (stockDisponible <= 0) {
+        return document.createElement("div"); // Retornamos un div vacío
+    }
+
     // Crea un div que será la tarjeta
     const tarjeta = document.createElement("div");
     tarjeta.className = "tarjeta";
+
+    let claseStock = "stock flex-grow-1";
+    let mensajeStock = `Stock: ${stockDisponible} unidades`;
+
+    if (stockDisponible <= 5) {
+        claseStock += " stock-bajo";
+        mensajeStock = `<i class="bi bi-exclamation-triangle"></i> Stock: ${stockDisponible} unidades`;
+    }
     
     // Rellena la tarjeta con HTML que contiene la imagen, nombre, categoría, precio, stock y botones
     tarjeta.innerHTML = `
@@ -50,7 +72,7 @@ function crearTarjeta(producto) {
             
             <div class="d-flex gap-3 align-items-center">
                 <div class="stock flex-grow-1">
-                    Stock: ${producto.stock} unidades
+                    Stock: ${stockDisponible} unidades
                 </div>
                 <button class="btn-carrito" onclick="añadirCarrito(${producto.id})">
                     <i class="bi bi-cart"></i>
@@ -209,6 +231,7 @@ function aplicarFiltros() {
 
 // Funcion que muestra los productos filtrados
 function mostrarProductos(productos) {
+    carritos = JSON.parse(localStorage.getItem("carritos")) || [];
     // Traemos el contendor
     const contenedor = document.getElementById("contenedor-productos");
     contenedor.innerHTML = "";
@@ -223,7 +246,9 @@ function mostrarProductos(productos) {
     // Si hay creamos las tarjetas de cada producto
     productos.forEach(producto => {
         const tarjeta = crearTarjeta(producto);
-        contenedor.appendChild(tarjeta);
+        if (tarjeta.children.length > 0) {
+            contenedor.appendChild(tarjeta);
+        }
     });
 }
 
@@ -253,6 +278,16 @@ function añadirCarrito(id){
         return;
     }
 
+    // Verificar si el producto tiene stock
+    if (producto.stock <= 0) {
+        Swal.fire({
+            icon: "error",
+            title: "Sin stock",
+            text: "Este producto no tiene unidades disponibles"
+        });
+        return;
+    }
+
     let carritos = JSON.parse(localStorage.getItem("carritos")) || [];
 
     // Calcular el stock según la cantidad en loscarritos
@@ -266,49 +301,26 @@ function añadirCarrito(id){
     console.log('En carritos: ', cantidadEnCarritos);
     console.log('Disponible: ', stockDisponible);
 
+    // Verificar si hay stock disponible
+    if (stockDisponible <= 0) {
+        Swal.fire({
+            icon: "error",
+            title: "Stock insuficiente",
+            text: "No hay stock disponible. Todos los productos están apartados en otros carritos."
+        });
+        return;
+    }
+
     // Verificamos si el producto ya esta en el carrito del usuario
     const itemExistente = carritos.find(item => item.id_producto === id && item.id_usuario === usuarioSesion.id_usuario);
 
     if (itemExistente) {
-        // Verificamos el stock disponible
-        if (stockDisponible <= 0) {
-            Swal.fire({
-                icon: "error",
-                title: "Stock insuficiente",
-                text: "No hay suficiente stock disponible, todos los productos estan apartados"
-            });
-            return;
-        }
-
+        // Actualizamos cantidad y cálculos
         itemExistente.cantidad += 1;
         itemExistente.subtotal = itemExistente.cantidad * producto.precio;
         itemExistente.iva = itemExistente.subtotal * 0.16;
         itemExistente.total = itemExistente.subtotal + itemExistente.iva;
-
-        // Avisamos si hay poquitos productos
-        console.log("Stock Disponible: ", stockDisponible);
-        if (stockDisponible <= 5) {
-            console.log("Entrando a función de stock");
-            Swal.fire({
-                icon: "warning",
-                title: "Stock bajo",
-                text: `Quedan menos de 5 unidades de ${producto.nombre}, contacte al proveedor`,
-                timer: 3000
-            });
-        }
     } else {
-        // Verificamos si hay stock
-        if (stockDisponible < 1) {
-            Swal.fire({
-                icon: "error",
-                title: "Sin stock",
-                text: "Este producto no tiene stock disponible"
-            });
-            return;
-        }
-
-        console.log("IVA: ", producto.precio * 0.16);
-
         const subtotal = producto.precio;
         const iva = producto.precio * 0.16;
         const total = subtotal + iva;
@@ -328,28 +340,29 @@ function añadirCarrito(id){
         };
 
         carritos.push(nuevoItem);
-
-        // Verificamos si el stock bajo
-        if (stockDisponible <= 5) {
-            Swal.fire({
-                icon: "warning",
-                title: "Stock bajo",
-                text: `Quedan menos de ${stockDisponible} unidades de ${producto.nombre}, contacte al proveedor`,
-                timer: 3000,
-                showConfirmButton: true
-            });
-        }
     }
 
     // Guardamos en local storage
     localStorage.setItem("carritos", JSON.stringify(carritos));
 
-    Swal.fire({
-        icon: "success",
-        title: "Producto agregado :D",
-        text: `${producto.nombre} agregado al carrito, compre, compre, compre más`,
-        timer: 1500,
-        showConfirmButton: false
-    });
+    const nuevoStockDisponible = stockDisponible - 1;
+    
+    if (nuevoStockDisponible <= 5 && nuevoStockDisponible > 0) {
+        Swal.fire({
+            icon: "warning",
+            title: "Producto agregado",
+            html: `<p><strong>${producto.nombre}</strong> agregado al carrito</p>
+                   <p class="text-warning mt-2"><i class="bi bi-exclamation-triangle"></i> ¡Atención! Quedan solo <strong>${nuevoStockDisponible}</strong> unidades disponibles</p>`,
+            confirmButtonText: "Entendido"
+        });
+    } else {
+        Swal.fire({
+            icon: "success",
+            title: "Producto agregado",
+            text: `${producto.nombre} agregado al carrito`,
+            timer: 1500,
+            showConfirmButton: false
+        });
+    }
 
 }
