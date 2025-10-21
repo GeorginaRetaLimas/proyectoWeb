@@ -42,11 +42,22 @@ function crearTarjeta(producto) {
             <div class="nombre-producto">${producto.nombre}</div>
             <div class="info-producto"><strong>Categoría:</strong> ${producto.categoria}</div>
             <div class="precio">$${producto.precio.toFixed(2)}</div>
-            <div class="stock">Stock: ${producto.stock} unidades</div>
+            <div class="row align-items-center">
+            
+            <div class="d-flex gap-3 align-items-center">
+                <div class="stock flex-grow-1">
+                    Stock: ${producto.stock} unidades
+                </div>
+                <button class="btn-carrito" onclick="añadirCarrito(${producto.id})">
+                    <i class="bi bi-cart"></i>
+                </button>
+            </div>
+
             <div class="botones">
                 <button class="btn-editar" onclick="abrirEdicion(${producto.id})">Editar</button>
                 <button class="btn-eliminar" onclick="abrirModalEliminacion(${producto.id})">Eliminar</button>
             </div>
+            <br>
         </div>
     `;
     
@@ -210,4 +221,8 @@ function mostrarProductos(productos) {
         const tarjeta = crearTarjeta(producto);
         contenedor.appendChild(tarjeta);
     });
+}
+
+function añadirCarrito(id){
+
 }

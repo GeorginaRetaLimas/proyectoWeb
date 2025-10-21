@@ -20,7 +20,7 @@
     <header class="header">
         <div class="header-left">
             <div class="menu-icon" onclick="toggleMenu()"><i class="bi bi-list"></i></div>
-            <h1>Almacén de Productos</h1>
+            <h1>Carrito</h1>
         </div>
         <div class="logo">
             <img src="../assets/imagenes/logo.png" alt="Cookies Web">
@@ -47,13 +47,13 @@
                 </span>
                 <span>Registro de productos</span>
             </a>
-            <a href="mostrarProductos.html" class="menu-item activo">
+            <a href="mostrarProductos.html" class="menu-item">
                 <span class="menu-icon-item">
                     <i class="bi bi-circle"></i>
                 </span>
                 <span>Almacén de productos</span>
             </a>
-            <a href="carrito.html" class="menu-item">
+            <a href="carrito.html" class="menu-item activo">
                 <span class="menu-icon-item">
                     <i class="bi bi-cart3"></i>
                 </span>
@@ -67,54 +67,7 @@
         </div>
     </nav>
 
-    <!-- Barra de búsqueda, filtros y ordenamiento -->
-    <div class="search-container">
-        <div class="search-wrapper">
-            <input type="text" class="search-input" placeholder="Buscar producto por nombre..." id="buscar" oninput="aplicarFiltros()">
-            <button class="search-btn" onclick="aplicarFiltros()"><i class="bi bi-search"></i></button>
-        </div>
-        <select class="filter-select" id="filtro-categoria" onchange="aplicarFiltros()">
-            <option value="">Todas las categorías</option>
-            <option value="Pastel">Pastel</option>
-            <option value="Galleta">Galleta</option>
-            <option value="Cupcake">Cupcake</option>
-        </select>
-
-        <select class="filter-select" id="ordenar" onchange="aplicarFiltros()">
-            <option value="">Ordenar por</option>
-            <option value="precio-asc">Precio: Menor a Mayor</option>
-            <option value="precio-desc">Precio: Mayor a Menor</option>
-            <option value="stock-asc">Stock: Menor a Mayor</option>
-            <option value="stock-desc">Stock: Mayor a Menor</option>
-            <option value="nombre-asc">Nombre: A-Z</option>
-            <option value="nombre-desc">Nombre: Z-A</option>
-        </select>
-    </div>
-
-    <!-- Botón agregar -->
-    <div style="margin: 0 40px; margin-bottom: 20px;">
-        <button class="btn-agregar" onclick="abrirFormulario()">
-            <span><i class="bi bi-plus"></i></span>
-            <span>Agregar Producto</span>
-        </button>
-    </div>
-
-    <!-- Contenedor de productos -->
-    <div class="container-productos" id="contenedor-productos">
-        <!-- Las tarjetas se generarán aquí -->
-    </div>
-
-    <!-- Modal para eliminar -->
-    <div class="modal" id="modal-eliminar">
-        <div class="modal-contenido">
-            <div class="modal-titulo">¿Estás seguro de eliminar este producto?</div>
-            <p class="modal-texto">Esta acción no se puede deshacer y el producto se eliminará permanentemente del inventario.</p>
-            <div class="modal-botones">
-                <button class="btn-cancelar" onclick="cerrarModal()">Cancelar</button>
-                <button class="btn-confirmar" onclick="confirmarEliminacion()">Eliminar</button>
-            </div>
-        </div>
-    </div>
+    
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="../js/menu.js"></script>
