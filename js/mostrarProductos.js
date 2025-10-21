@@ -233,33 +233,110 @@ function añadirCarrito(id){
     // Verificamos si hay un usuario en la sesion
     const usuarioSesion = JSON.parse(localStorage.getItem('sesion'));
 
-    // Obtenemos el producto
-    const producto = productos.find(p => p.id === id);
-
-    stockAlmacen = producto.stock;
-    /*cantidadPedidos = carritos.find(c => c.id === id);
-
-    // Verificamos que haya sificientes productos
-    if(stockAlmacen > cantidadPedidos){
-        if((stockAlmacen - cantidadPedidos) <= 5){
-            // cpmfirmacion con mensaje de 
-            // "Te quedan - de 5 prodcuts, llama a tu provedor"
-        } 
-
-        cantidadPedidos++;
-
-        let nuevoCarrito = {
-            id: Date.now(),
-            id_producto: id,
-            id_usuario: 
-        }
-    } else {
+    if (!usuarioSesion) {
         Swal.fire({
             icon: "error",
             title: "Error",
-            text: "No hay suficientes productos en stock, llame al administrador."
+            text: "Debes iniciar sesión para agregar productos al carrito"
         });
-    }*/
+        return;
+    }
 
+    // Obtener el producto
+    const producto = productos.find(p => p.id === id);
+    if (!producto) {
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Producto no encontrado, como hiciste eso?"
+        });
+        return;
+    }
+
+    let carritos = JSON.parse(localStorage.getItem("carritos")) || [];
+
+    // Calcular el stock según la cantidad en loscarritos
+    const cantidadEnCarritos = carritos
+        .filter(item => item.id_producto === id)
+        .reduce((total, item) => total + item.cantidad, 0);
+
+    const stockDisponible = producto.stock - cantidadEnCarritos;
+
+    console.log('Stock total:',  producto.stock);
+    console.log('En carritos: ', cantidadEnCarritos);
+    console.log('Disponible: ', stockDisponible);
+
+    // Verificamos si el producto ya esta en el carrito del usuario
+    const itemExistente = carritos.find(item => item.id_producto === id && item.id_usuario === usuarioSesion.id_usuario);
+
+    if (itemExistente) {
+        // Verificamos el stock disponible
+        if (stockDisponible <= 0) {
+            Swal.fire({
+                icon: "error",
+                title: "Stock insuficiente",
+                text: "No hay suficiente stock disponible, todos los productos estan apartados"
+            });
+            return;
+        }
+
+        itemExistente.cantidad += 1;
+        itemExistente.subtotal = itemExistente.cantidad * producto.precio;
+
+        // Avisamos si hay poquitos productos
+        if ((producto.stock - cantidadEnCarritos - 1) <= 5) {
+            Swal.fire({
+                icon: "warning",
+                title: "Stock bajo",
+                text: `Quedan menos de 5 unidades de ${producto.nombre}, contacte al proveedor`,
+                timer: 3000
+            });
+        }
+    } else {
+        // Verificamos si hay stock
+        if (stockDisponible < 1) {
+            Swal.fire({
+                icon: "error",
+                title: "Sin stock",
+                text: "Este producto no tiene stock disponible"
+            });
+            return;
+        }
+
+        // Creamos un nuevo item en carrito
+        const nuevoItem = {
+            id: Date.now(),
+            id_producto: producto.id,
+            id_usuario: usuarioSesion.id_usuario,
+            nombre: producto.nombre,
+            precio: producto.precio,
+            cantidad: 1,
+            subtotal: producto.precio,
+            imagen: producto.imagen
+        };
+
+        carritos.push(nuevoItem);
+
+        // Verificamos si el stock bajo
+        if ((producto.stock - cantidadEnCarritos - 1) <= 5) {
+            Swal.fire({
+                icon: "warning",
+                title: "Stock bajo",
+                text: `Quedan menos de ${producto.stock} unidades de ${producto.nombre}, contacte al proveedor`,
+                timer: 3000
+            });
+        }
+    }
+
+    // Guardamos en local storage
+    localStorage.setItem("carritos", JSON.stringify(carritos));
+
+    Swal.fire({
+        icon: "success",
+        title: "Producto agregado :D",
+        text: `${producto.nombre} agregado al carrito, compre, compre, compre más`,
+        timer: 1500,
+        showConfirmButton: false
+    });
 
 }
