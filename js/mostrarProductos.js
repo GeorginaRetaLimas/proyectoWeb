@@ -2,6 +2,7 @@
 let productoAEliminar = null;
 
 let productos = [];
+let carritos = [];
 
 // Ejecuta cargarProductos cuando el DOM está completamente cargado
 document.addEventListener("DOMContentLoaded", () => {
@@ -12,7 +13,10 @@ document.addEventListener("DOMContentLoaded", () => {
 function cargarProductos() {
     // Obtiene el array de productos desde localStorage, si no existe retorna un array vacío
     productos = JSON.parse(localStorage.getItem("productos")) || [];
-    
+
+    // Obtenemos el array de carrito si no es vacio
+    carritos = JSON.parse(localStorage.getItem("carritos")) || [];
+
     // Obtiene el elemento contenedor donde se mostrarán las tarjetas
     const contenedor = document.getElementById("contenedor-productos");
     contenedor.innerHTML = "";
@@ -224,5 +228,38 @@ function mostrarProductos(productos) {
 }
 
 function añadirCarrito(id){
+    console.log("Entrando a funcion añadir a carrito");
+
+    // Verificamos si hay un usuario en la sesion
+    const usuarioSesion = JSON.parse(localStorage.getItem('sesion'));
+
+    // Obtenemos el producto
+    const producto = productos.find(p => p.id === id);
+
+    stockAlmacen = producto.stock;
+    /*cantidadPedidos = carritos.find(c => c.id === id);
+
+    // Verificamos que haya sificientes productos
+    if(stockAlmacen > cantidadPedidos){
+        if((stockAlmacen - cantidadPedidos) <= 5){
+            // cpmfirmacion con mensaje de 
+            // "Te quedan - de 5 prodcuts, llama a tu provedor"
+        } 
+
+        cantidadPedidos++;
+
+        let nuevoCarrito = {
+            id: Date.now(),
+            id_producto: id,
+            id_usuario: 
+        }
+    } else {
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "No hay suficientes productos en stock, llame al administrador."
+        });
+    }*/
+
 
 }

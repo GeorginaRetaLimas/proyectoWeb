@@ -6,12 +6,6 @@ let usuarios = [];
 
 // Al momento de inicializar la página
 document.addEventListener("DOMContentLoaded", function(){
-
-    // Verificamos si la sesion esta activa para limpiarla
-    if(localStorage.getItem('sesion')){
-        localStorage.setItem('sesion', null);
-    }
-
     // Verificamos usuarios en localStorage
     if(localStorage.getItem('usuarios')){
         usuarios = JSON.parse(localStorage.getItem('usuarios'));
@@ -44,11 +38,10 @@ document.getElementById('form_Inicio').addEventListener('submit', function(e) {
 
             Swal.fire('Éxito', 'Usuario logueado con éxito', 'success');
 
-            // Función para que después de 3 segundos mande a dashboard 
-            setTimeout(function() {
-                console.log("Redirigiendo a lista Productos...");
-                window.location.href = "mostrarProductos.html";
-            }, 3000);
+            // Guardar usuario en la sesión
+            localStorage.setItem('sesion', JSON.stringify(usuarioExiste));
+
+            window.location.href = "mostrarProductos.html";
         } else {
             console.log(usuarioExiste);
             Swal.fire('Error', 'Contraseña incorrecta', 'error');

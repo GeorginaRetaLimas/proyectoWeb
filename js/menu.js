@@ -20,15 +20,42 @@ function cerrarSesion() {
         cancelButtonText: 'Cancelar'
     }).then((result) => {
         if (result.isConfirmed) {
-            window.location.href = 'auth.html';
+            localStorage.removeItem('sesion');
+            window.location.href = '../index.html';
         }
     });
+}
+
+// Función para verificar sesión
+function verificarSesion() {
+    const sesionData = localStorage.getItem('sesion');
+    
+    // Existe y es valida
+    if (!sesionData || sesionData === 'null' || sesionData === 'undefined') {
+        console.log("No hay sesión activa, redirigiendo...");
+        window.location.href = '../index.html';
+        return null;
+    }
+    
+    try {
+        const sesion = JSON.parse(sesionData);
+        console.log("Sesión activa:", sesion);
+        return sesion;
+    } catch (error) {
+        console.error("Error al parsear sesión:", error);
+        localStorage.removeItem('sesion');
+        window.location.href = '../index.html';
+        return null;
+    }
 }
 
 // Cerrar menú al hacer clic en cualquier enlace del menú
 document.addEventListener('DOMContentLoaded', () => {
     const menuItems = document.querySelectorAll('.menu-item');
-    
+
+    // Verificar sesion
+    verificarSesion();
+
     menuItems.forEach(item => {
         item.addEventListener('click', (e) => {
             // Aqui verificamos si el boton no es el de cerrar sesión si no lo es cierra el menu
