@@ -614,7 +614,7 @@ input:focus, select:focus {
 
     .search-container {
         flex-direction: column;
-        margin: 20px;
+        margin: 10px;
     }
 
     .search-wrapper {

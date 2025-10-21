@@ -282,9 +282,13 @@ function añadirCarrito(id){
 
         itemExistente.cantidad += 1;
         itemExistente.subtotal = itemExistente.cantidad * producto.precio;
+        itemExistente.iva = itemExistente.subtotal * 0.16;
+        itemExistente.total = itemExistente.subtotal + itemExistente.iva;
 
         // Avisamos si hay poquitos productos
-        if ((producto.stock - cantidadEnCarritos - 1) <= 5) {
+        console.log("Stock Disponible: ", stockDisponible);
+        if (stockDisponible <= 5) {
+            console.log("Entrando a función de stock");
             Swal.fire({
                 icon: "warning",
                 title: "Stock bajo",
@@ -303,6 +307,12 @@ function añadirCarrito(id){
             return;
         }
 
+        console.log("IVA: ", producto.precio * 0.16);
+
+        const subtotal = producto.precio;
+        const iva = producto.precio * 0.16;
+        const total = subtotal + iva;
+
         // Creamos un nuevo item en carrito
         const nuevoItem = {
             id: Date.now(),
@@ -311,19 +321,22 @@ function añadirCarrito(id){
             nombre: producto.nombre,
             precio: producto.precio,
             cantidad: 1,
-            subtotal: producto.precio,
+            subtotal: subtotal,
+            iva: iva,
+            total: total,
             imagen: producto.imagen
         };
 
         carritos.push(nuevoItem);
 
         // Verificamos si el stock bajo
-        if ((producto.stock - cantidadEnCarritos - 1) <= 5) {
+        if (stockDisponible <= 5) {
             Swal.fire({
                 icon: "warning",
                 title: "Stock bajo",
-                text: `Quedan menos de ${producto.stock} unidades de ${producto.nombre}, contacte al proveedor`,
-                timer: 3000
+                text: `Quedan menos de ${stockDisponible} unidades de ${producto.nombre}, contacte al proveedor`,
+                timer: 3000,
+                showConfirmButton: true
             });
         }
     }

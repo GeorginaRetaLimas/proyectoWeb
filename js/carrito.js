@@ -60,6 +60,8 @@ function mostrarCarrito(items) {
                 </div>
             </td>
             <td>$${item.subtotal.toFixed(2)}</td>
+            <td>$${item.iva.toFixed(2)}</td>
+            <td>$${item.total.toFixed(2)}</td>
             <td>
                 <button class="btn btn-eliminar btn-sm" onclick="eliminarItem(${item.id})">
                     <i class="bi bi-trash"></i>
@@ -153,6 +155,8 @@ function confirmarPedido() {
         total: carritoUsuario.reduce((sum, item) => sum + item.subtotal, 0)
         //estado: 'entregado'
     };
+
+    console.log(pedido);
 
     // Guardamos el pedido en localStorage
     let pedidos = JSON.parse(localStorage.getItem("pedidos")) || [];
