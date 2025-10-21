@@ -657,3 +657,76 @@ input:focus, select:focus {
         height: 40px;
     }
 }
+
+/* Botones fijos del carrito */
+.botones-fijos-carrito {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    gap: 15px;
+    z-index: 100;
+}
+
+.btn-vaciar, .btn-confirmar {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 160px;
+    justify-content: center;
+}
+
+.btn-vaciar {
+    background: linear-gradient(135deg, #e4b3b0 0%, #d9a5a1 100%);
+    color: #3b1f1f;
+    box-shadow: 0 4px 10px rgba(228, 179, 176, 0.3);
+}
+
+.btn-vaciar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(228, 179, 176, 0.5);
+}
+
+.btn-confirmar {
+    background: linear-gradient(135deg, #d19a9a 0%, #c68a8a 100%);
+    color: white;
+    box-shadow: 0 4px 10px rgba(209, 154, 154, 0.3);
+}
+
+.btn-confirmar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(209, 154, 154, 0.5);
+}
+
+/* Ocultar botones cuando el carrito está vacío */
+#carrito-vacio ~ .botones-fijos-carrito {
+    display: none;
+}
+
+/* Mostrar botones cuando el carrito tiene productos */
+#carrito-lleno:not(.d-none) ~ .botones-fijos-carrito {
+    display: flex;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .botones-fijos-carrito {
+        bottom: 10px;
+        right: 10px;
+        left: 10px;
+        flex-direction: column;
+        padding: 12px;
+    }
+    
+    .btn-vaciar, .btn-confirmar {
+        min-width: auto;
+        width: 100%;
+    }
+}
