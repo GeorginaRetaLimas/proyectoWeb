@@ -356,6 +356,9 @@ function confirmarPedido() {
     // Guardamos el pedido en localStorage
     let pedidos = JSON.parse(localStorage.getItem("pedidos")) || [];
     pedidos.push(pedido);
+
+    console.log(pedidos);
+
     localStorage.setItem("pedidos", JSON.stringify(pedidos));
 
     // Limpiamos el carrito del usuario

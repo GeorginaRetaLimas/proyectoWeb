@@ -22,7 +22,83 @@ function cargarProductos() {
     contenedor.innerHTML = "";
     
     if (productos.length === 0) {
+
+        const nuevosProducto = [
+            {
+                id: 1,
+                nombre: "Revanado de Pastel de chocolate",
+                categoria: "Pastel",
+                imagen: "https://content-cocina.lecturas.com/medio/2023/03/23/el-mejor-pastel-de-chocolate_24bd9cda_1200x1200.jpg",
+                precio: 35.99,
+                stock: 7
+            }, 
+            {
+                id: 2,
+                nombre: "Galletas de jengibre navideña",
+                categoria: "Galleta",
+                imagen: "https://cdn.pixabay.com/photo/2015/11/19/20/17/cookies-1051884_1280.jpg",
+                precio: 40.99,
+                stock: 8
+            },
+            {
+                id: 3,
+                nombre: "Galleta del amigo de Shrek",
+                categoria: "Galleta",
+                imagen: "https://tse1.mm.bing.net/th/id/OIP.vAMm8_HNRuuzwv8N-lRVQgHaHa?cb=12ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+                precio: 99,
+                stock: 5
+            },
+            {
+                id: 4,
+                nombre: "Cupcake con chispas",
+                categoria: "Cupcake",
+                imagen: "https://tse3.mm.bing.net/th/id/OIP._45jwvGc1O2WnvrHz9VPvAHaE8?cb=12ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+                precio: 20.00,
+                stock: 30
+            },
+            {
+                id: 5,
+                nombre: "Pastel de extra chocolate",
+                categoria: "Pastel",
+                imagen: "https://thvnext.bing.com/th/id/OIP.4XgedmZ1jXoAKMyBUhyfogHaHa?o=7&cb=12rm=3&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+                precio: 99.99,
+                stock: 21
+            }, 
+            {
+                id: 6,
+                nombre: "Gato Galleta",
+                categoria: "Galleta",
+                imagen: "https://th.bing.com/th/id/R.ddb28aed89bd3dc780de2a5e68e231c8?rik=hHp67jVm9pdn%2bA&pid=ImgRaw&r=0",
+                precio: 45.00,
+                stock: 6
+            },
+            {
+                id: 7,
+                nombre: "Cupcake de chocolate barato",
+                categoria: "Cupcake",
+                imagen: "https://thvnext.bing.com/th/id/OIP.vadSd3OmhvvL1QjeXmq9QwHaLH?o=7&cb=12rm=3&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+                precio: 10.00,
+                stock: 55
+            },
+            {
+                id: 8,
+                nombre: "Cupckake de chocolate con vainilla, chispas y fresa",
+                categoria: "Cupcake",
+                imagen: "https://thvnext.bing.com/th/id/OIP.moTgjQ6g-vajYnZisxvDhQHaLH?o=7&cb=12rm=3&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+                precio: 25.00,
+                stock: 35
+            }
+        ];
+        
+        // Agregar a la lista
+        productos = nuevosProducto;
+        
+        // Guardar en localStorage
+        localStorage.setItem("productos", JSON.stringify(productos));
+
+
         contenedor.innerHTML = '<div class="vacio">No hay productos registrados</div>';
+
         return;
     }
     
