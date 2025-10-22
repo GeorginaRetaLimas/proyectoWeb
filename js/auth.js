@@ -1,5 +1,14 @@
-// Ussers authentication
+// Autenticación de usuarios
 console.log("Conexión exitosa al script de autentificacion de usuarios");
+
+//usuario predeterminado
+const usuario_predeterminado={
+    id_usuario: 0,
+    username: "admin",
+    correo: "admin@cookies.com",
+    contraseña: "admin123",
+    rol: "administrador"
+};
 
 // Variable global de usuario
 let usuarios = [];
@@ -28,8 +37,17 @@ document.getElementById('form_Inicio').addEventListener('submit', function(e) {
         Swal.fire('Advertencia', 'Rellene todos los campos primero', 'warning');
         return;
     }
+    //verificar si es el usuario predeterminado
+    if(nombreUsuario === usuario_predeterminado.username && contraseña === usuario_predeterminado.contraseña){
+        Swal.fire('Éxito', 'Usuario logueado con éxito', 'success');
+        // Guardar usuario predeterminado en la sesión
+        localStorage.setItem('sesion', JSON.stringify(usuario_predeterminado));
+        
+        window.location.href = "mostrarProductos.html";
+        return;
+    }
 
-
+    //verificar en usuarios registrados
     const usuarioExiste = usuarios.find(user => user.username === nombreUsuario);
 
     if(usuarioExiste){
@@ -83,6 +101,20 @@ document.getElementById('form_Registro').addEventListener('submit', function(e) 
         Swal.fire('Error', 'Las contraseñas no coinciden', 'error');
         return;
     }
+
+    //validar que no intenten usar el username del usuario predeterminado
+    if(nombreUsuario.toLowerCase()=== usuario_predeterminado.username.toLowerCase()){
+        Swal.fire('Error', 'Este nombre de usuario no esta disponible', 'error');
+        return;
+    }
+
+    // Validar que no intente usar el correo del usuario predeterminado
+    if (correo.toLowerCase() === usuario_predeterminado.correo.toLowerCase()) {
+        Swal.fire('Error', 'Este correo no está disponible', 'error');
+        return;
+    }
+
+
 
     // Si no existe nada en usuarios no valida el correo
     if (typeof usuarios !== 'undefined') {

@@ -71,9 +71,104 @@ function mostrarCarrito(items) {
     });
 }
 
-// Funcion para sumar o restar uno, pero no es mi parte sjsjssj * baila enloquecida * perdon
+// Función para cambiar la cantidad de un producto en el carrito
 function cambiarCantidad(itemId, cambio) {
+    // Encontramos el item en el carrito
+    const itemIndex = carritos.findIndex(item => item.id === itemId);
     
+    if (itemIndex === -1) return;
+    
+    const item = carritos[itemIndex];
+    const nuevaCantidad = item.cantidad + cambio;
+    
+    // Validamos que la cantidad no sea menor a 1
+    if (nuevaCantidad < 1) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Cantidad mínima',
+            text: 'La cantidad mínima es 1.',
+            timer: 2000,
+            showConfirmButton: false
+        });
+        return;
+    }
+    
+    // Obtenemos los productos del localStorage para verificar stock
+    let productos = JSON.parse(localStorage.getItem("productos")) || [];
+    const producto = productos.find(p => p.id === item.id_producto);
+    
+    if (!producto) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Producto no encontrado',
+            text: 'Este producto ya no existe en el almacén'
+        });
+        return;
+    }
+    
+    // Calculamos cuántos productos de este tipo hay en TODOS los carritos (incluyendo el cambio actual)
+    const totalEnCarritos = carritos
+        .filter(c => c.id_producto === item.id_producto)
+        .reduce((total, c) => {
+            // Si es el item actual, usamos la nueva cantidad
+            if (c.id === itemId) {
+                return total + nuevaCantidad;
+            }
+            return total + c.cantidad;
+        }, 0);
+    
+    // Calculamos el stock disponible
+    const stockDisponible = producto.stock - totalEnCarritos;
+    
+    // Validamos que no exceda el stock disponible
+    if (stockDisponible < 0) {
+        const stockActualDisponible = producto.stock - (totalEnCarritos - nuevaCantidad);
+        Swal.fire({
+            icon: 'error',
+            title: 'Stock insuficiente',
+            html: `<p>Solo hay <strong>${producto.stock}</strong> unidades en stock de <strong>${producto.nombre}</strong></p>
+                   <p class="text-muted mt-2">Stock disponible: ${stockActualDisponible} unidades</p>`,
+            confirmButtonText: 'Entendido'
+        });
+        return;
+    }
+    
+    // Actualizamos la cantidad
+    carritos[itemIndex].cantidad = nuevaCantidad;
+    
+    // Recalculamos subtotal, IVA y total del item
+    const precioUnitario = carritos[itemIndex].precio;
+    const subtotal = precioUnitario * nuevaCantidad;
+    const iva = subtotal * 0.16;
+    const total = subtotal + iva;
+    
+    carritos[itemIndex].subtotal = subtotal;
+    carritos[itemIndex].iva = iva;
+    carritos[itemIndex].total = total;
+    
+    // Guardamos en localStorage
+    localStorage.setItem("carritos", JSON.stringify(carritos));
+    
+    // Recargamos la vista
+    const carritoUsuario = carritos.filter(item => item.id_usuario === usuarioSesion.id_usuario);
+    mostrarCarrito(carritoUsuario);
+    calcularTotal();
+    
+    // Mostramos alerta si el stock está bajo (≤ 5 unidades después del cambio)
+    if (stockDisponible <= 5 && stockDisponible > 0 && cambio > 0) {
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true
+        });
+        
+        Toast.fire({
+            icon: 'warning',
+            title: `¡Solo quedan ${stockDisponible} unidades disponibles!`
+        });
+    }
 }
 
 // Funcion para eliminar item
@@ -89,23 +184,64 @@ function eliminarItem(itemId) {
         confirmButtonText: 'Eliminar',
         cancelButtonText: 'Cancelar'
     }).then((result) => {
-        // Si se confirma
+        // Si se quiere eliminar el producto pedir contraseña
         if (result.isConfirmed) {
-            // Obtenemos el producto del carrito
-            carritos = carritos.filter(item => item.id !== itemId);
+            Swal.fire({
+                title: 'Verificación requerida',
+                html: `
+                    <p>Ingresa la contraseña para eliminar productos:</p>
+                    <input type="password" id="password-eliminar" class="swal1-input" placeholder="Contraseña">
+                `,
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#d66f8eff',
+                cancelButtonColor: '#cda49fff',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: 'Cancelar',
+                focusConfirm: false,
+                preConfirm: () => {
+                    const password = document.getElementById('password-eliminar').value;
+                    
+                    // Validar que se haya ingresado algo
+                    if (!password) {
+                        Swal.showValidationMessage('Por favor ingresa la contraseña');
+                        return false;
+                    }
+                    
+                    // Verificar la contraseña
+                    if (password !== 'cookie123') {
+                        Swal.showValidationMessage('Contraseña incorrecta');
+                        return false;
+                    }
+                    
+                    return true;
+                }
+            }).then((passwordResult) => {
+                // Si la contraseña es correcta se elimina el producto
+                if (passwordResult.isConfirmed) {
+                    // Obtener el producto del carrito
+                    carritos = carritos.filter(item => item.id !== itemId);
 
-            // Volvemos a guardar en localstorage
-            localStorage.setItem("carritos", JSON.stringify(carritos));
-            
-            // Definimos el carrito de usuario según los productos que tienen su id
-            const carritoUsuario = carritos.filter(item => item.id_usuario === usuarioSesion.id_usuario);
+                    // Volver a guardar en localstorage
+                    localStorage.setItem("carritos", JSON.stringify(carritos));
+                    
+                    // Definir el carrito de usuario según los productos que tienen su id
+                    const carritoUsuario = carritos.filter(item => item.id_usuario === usuarioSesion.id_usuario);
 
-            // Volvemos a dibujar la tabla y calcular
-            mostrarCarrito(carritoUsuario);
-            calcularTotal();
-            
-            // mostramos el aviso de eliminado
-            Swal.fire('Eliminado', 'Producto eliminado del carrito', 'success');
+                    // Volver a dibujar la tabla y calcular el total
+                    mostrarCarrito(carritoUsuario);
+                    calcularTotal();
+                    
+                    // Mostrar aviso de eliminado
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Eliminado',
+                        text: 'Producto eliminado del carrito',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                }
+            });
         }
     });
 }
@@ -273,8 +409,4 @@ function vaciarCarrito() {
             Swal.fire('Carrito vaciado', 'Todos los productos han sido eliminados', 'success');
         }
     });
-}
-
-function cambiarCantidad(itemId, cambio) {
-    
 }
