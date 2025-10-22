@@ -42,7 +42,7 @@ document.getElementById('form_Inicio').addEventListener('submit', function(e) {
         Swal.fire('Éxito', 'Usuario logueado con éxito', 'success');
         // Guardar usuario predeterminado en la sesión
         localStorage.setItem('sesion', JSON.stringify(usuario_predeterminado));
-        
+    
         window.location.href = "mostrarProductos.html";
         return;
     }

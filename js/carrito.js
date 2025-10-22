@@ -2,6 +2,7 @@ let carritos = [];
 let usuarioSesion = null;
 
 document.addEventListener("DOMContentLoaded", () => {
+    // Cada que actualizamos cargamos el carrito
     cargarCarrito();
 });
 
@@ -314,7 +315,7 @@ function confirmarPedido() {
     }
 
     // Generar folio único con la fecha
-    const folio = 'Cookies-' + Date.now();
+    const folio = 'COOKIES-' + Date.now();
 
     // Obtenemos la fecha
     const fecha = new Date().toLocaleString();
