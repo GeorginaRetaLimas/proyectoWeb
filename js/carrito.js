@@ -118,10 +118,14 @@ function calcularTotal() {
 
     // Reducimos los elementos al valor de subtotal
     // los acumulamos en suma y con item recorremos, item.subtotal es el precio por la cantidad y le decimos que empieza en 0
-    const total = carritoUsuario.reduce((sum, item) => sum + item.subtotal, 0);
-    
-    // Mostramos en total carrito solamente dejando dos valores despues del puntito
-    document.getElementById("total-carrito").textContent = `$${total.toFixed(2)}`;
+    const subtotal = carritoUsuario.reduce((sum, item) => sum + item.subtotal, 0);
+    const iva = carritoUsuario.reduce((sum, item) => sum + item.iva, 0);
+    const total = subtotal + iva;
+
+    // Actualizamos el resumen
+    document.getElementById("resumen-subtotal").textContent = `$${subtotal.toFixed(2)}`;
+    document.getElementById("resumen-iva").textContent = `$${iva.toFixed(2)}`;
+    document.getElementById("resumen-total").textContent = `$${total.toFixed(2)}`;
 }
 
 // Si el pedido se confirma

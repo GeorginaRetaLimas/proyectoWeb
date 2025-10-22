@@ -69,7 +69,7 @@
 
     <!-- Main principal donde estara el carrito -->
     <main class="main-content">
-        <div class="container-fluid">
+        <div class="container-carrito">
             <!-- Carrito vacío -->
             <div id="carrito-vacio" class="text-center py-5">
                 <i class="bi bi-cart-x display-1 text-muted"></i>
@@ -83,46 +83,72 @@
 
             <!-- Carrito con productos -->
             <div id="carrito-lleno" class="d-none">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Producto</th>
-                                        <th>Precio Unitario</th>
-                                        <th>Cantidad</th>
-                                        <th>Subtotal</th>
-                                        <th>IVA</th>
-                                        <th>Total</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tabla-carrito-body">
-                                    <!-- Los items saldrán dinamicamente aqui -->
-                                </tbody>
-                                <tfoot>
-                                    <tr class="table-success">
-                                        <td colspan="5" class="text-end"><strong>Total:</strong></td>
-                                        <td colspan="2"><strong id="total-carrito">$0.00</strong></td>
-                                    </tr>
-                                </tfoot>
-                            </table>
+                <div class="row">
+                    <!-- Tabla de productos -->
+                    <div class="col-lg-8 col-md-7">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Producto</th>
+                                                <th>Precio Unitario</th>
+                                                <th>Cantidad</th>
+                                                <th>Subtotal</th>
+                                                <th>IVA</th>
+                                                <th>Total</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tabla-carrito-body">
+                                            <!-- Los items saldrán dinamicamente aqui -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    
+                    <!-- Panel de resumen y botones -->
+                    <div class="col-lg-3 col-md-4">
+                        <div class="card resumen-carrito">
+                            <div class="card-body">
+                                <h5 class="card-title">Resumen del Pedido</h5>
+                                
+                                <div class="resumen-item">
+                                    <span>Subtotal:</span>
+                                    <span id="resumen-subtotal">$0.00</span>
+                                </div>
+                                
+                                <div class="resumen-item">
+                                    <span>IVA (16%):</span>
+                                    <span id="resumen-iva">$0.00</span>
+                                </div>
+                                
+                                <hr>
+                                
+                                <div class="resumen-item total">
+                                    <span>Total:</span>
+                                    <span id="resumen-total">$0.00</span>
+                                </div>
+                                
+                                <div class="d-grid gap-2 mt-4">
+                                    <button class="btn-confirmar" onclick="confirmarPedido()">
+                                        <i class="bi bi-check-circle"></i> Confirmar Pedido
+                                    </button>
+                                    <button class="btn-vaciar" onclick="vaciarCarrito()">
+                                        <i class="bi bi-trash"></i> Vaciar Carrito
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
     </main>
-
-    <div class="botones-fijos-carrito" id="botones-fijos-carrito">
-        <button class="btn-vaciar" onclick="vaciarCarrito()">
-            <i class="bi bi-trash"></i> Vaciar Carrito
-        </button>
-        <button class="btn-confirmar" onclick="confirmarPedido()">
-            <i class="bi bi-check-circle"></i> Confirmar Pedido
-        </button>
-    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="../js/menu.js"></script>
