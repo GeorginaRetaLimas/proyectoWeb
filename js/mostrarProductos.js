@@ -139,7 +139,7 @@ function crearTarjeta(producto) {
     
     // Rellena la tarjeta con HTML que contiene la imagen, nombre, categoría, precio, stock y botones
     tarjeta.innerHTML = `
-        <img src="${producto.imagen}" alt="${producto.nombre}" class="imagen-producto" onerror="this.src='https://via.placeholder.com/300x220?text=Imagen+no+disponible'">
+        <img src="${producto.imagen}" alt="${producto.nombre}" class="imagen-producto" onerror="this.src='https://img.freepik.com/vector-premium/patron-fisuras-doodle-dulces-postres-helado-muffin-sobre-fondo-rosa_271392-107.jpg'">
         <div class="contenido-tarjeta">
             <div class="nombre-producto">${producto.nombre}</div>
             <div class="info-producto"><strong>Categoría:</strong> ${producto.categoria}</div>

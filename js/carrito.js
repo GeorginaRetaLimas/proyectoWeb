@@ -48,7 +48,7 @@ function mostrarCarrito(items) {
         const tr = document.createElement("tr");
         tr.innerHTML = `
             <td>
-                <img src="${item.imagen}" alt="${item.nombre}" class="img-carrito" onerror="this.src='https://via.placeholder.com/50x50?text=Imagen'">
+                <img src="${item.imagen}" alt="${item.nombre}" class="img-carrito" onerror="this.src='https://img.freepik.com/vector-premium/patron-fisuras-doodle-dulces-postres-helado-muffin-sobre-fondo-rosa_271392-107.jpg'">
                 ${item.nombre}
             </td>
             <td>$${item.precio.toFixed(2)}</td>
@@ -381,7 +381,7 @@ function confirmarPedido() {
         icon: 'success',
         confirmButtonText: 'Aceptar'
     }).then(() => {
-        // Si el pedido se confirma, vaciamos el carrito
+        // Si el pedido se confirma vaciamos
         cargarCarrito();
     });
 }
