@@ -60,7 +60,7 @@ function cargarProductos() {
                 id: 5,
                 nombre: "Pastel de extra chocolate",
                 categoria: "Pastel",
-                imagen: "https://thvnext.bing.com/th/id/OIP.4XgedmZ1jXoAKMyBUhyfogHaHa?o=7&cb=12rm=3&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+                imagen: "https://tse2.mm.bing.net/th/id/OIP.leMIT0W1tT5fVbx9WqbyggHaEK?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
                 precio: 99.99,
                 stock: 21
             }, 
