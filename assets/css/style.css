@@ -950,3 +950,56 @@ input:focus, select:focus {
 .stock-bajo i {
     color: #c62828;
 }
+
+/*Dashboard*/
+
+.container-dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 30px;
+    padding: 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.dashboard-card {
+    background: rgb(255, 243, 247);
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(61, 13, 32, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+}
+
+.card-header {
+    background: linear-gradient(135deg, #e4b3b0 0%, #d9a5a1 100%);
+    padding: 20px 25px;
+    color: #5a2d2d;
+}
+
+.card-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.card-body {
+    padding: 25px;
+    height: 300px;
+}
+
+@media (max-width: 768px) {
+    .container-dashboard {
+        grid-template-columns: 1fr;
+        padding: 20px;
+        gap: 20px;
+    }
+    
+    .card-body {
+        height: 250px;
+        padding: 15px;
+    }
+}
