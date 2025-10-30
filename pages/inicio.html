@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Almacén de Productos - Cookies Web</title>
 
-    <!-- Char.js con lo que hacemos las gráficas -->
+    <!-- Char.js para las gráficas -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <!-- Bootstrap CSS -->
@@ -107,10 +107,37 @@
                 </div>
             </div>
         </div>
+
+        <!-- Botón para ver historial -->
+        <div class="container-btn-historial">
+            <button class="btn-historial" onclick="abrirHistorialPedidos()">
+                <i class="bi bi-clock-history"></i>
+                Ver Historial de Pedidos Realizados
+            </button>
+        </div>
     </main>
+
+    <!-- Modal de Historial de Pedidos -->
+    <div class="modal-historial" id="modal-historial">
+        <div class="modal-historial-contenido">
+            <div class="modal-historial-header">
+                <h2><img src="../assets/imagenes/logo.png" alt="Cookies Web" width="150px">Historial de Pedidos</h2>
+                <button class="btn-cerrar-historial" onclick="cerrarHistorialPedidos()">
+                    <i class="bi bi-x"></i>
+                </button>
+            </div>
+            <div class="modal-historial-body">
+                <!-- Lista de pedidos -->
+                <div id="lista-pedidos">
+                    <!-- Los pedidos se generarán aquí -->
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="../js/menu.js"></script>
     <script src="../js/inicio.js"></script>
+    <script src="../js/historial.js"></script>
 </body>
 </html>
