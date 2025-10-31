@@ -337,7 +337,7 @@ function obtenerProductosVendidos(){
     // Definimos el valor a retornar
     let productosVendidos = [];
 
-    // Recorremos to
+    // Recorremos los pedidos
     pedidos.forEach(pedido => {
         if (pedido.items && Array.isArray(pedido.items)) {
             pedido.items.forEach(item => {
