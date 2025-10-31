@@ -146,6 +146,59 @@ function toggleProductos(index) {
     }
 }
 
+// Funciones para exportar a CSV
+// Función para exportar un resumen de los pedidos 
+function exportarPedidosCSV() {
+    let pedidos = JSON.parse(localStorage.getItem('pedidos')) || [];
+    
+    if (pedidos.length === 0) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'No hay pedidos',
+            text: 'No hay pedidos registrados para exportar.',
+            confirmButtonColor: '#7a5555'
+        });
+        return;
+    }
+    
+    // Crear el contenido del CSV
+    let csvContent = "data:text/csv;charset=utf-8,\uFEFF";
+    
+    // Encabezados
+    csvContent += "Folio,Fecha,Usuario,Cantidad de Productos,Subtotal,IVA,Total\n";
+    
+    // Agregar cada pedido (resumen)
+    pedidos.forEach(pedido => {
+        csvContent += `"${pedido.folio}",`;
+        csvContent += `"${pedido.fecha}",`;
+        csvContent += `"${pedido.usuario}",`;
+        csvContent += `${pedido.items.length},`;
+        csvContent += `${pedido.subtotal.toFixed(2)},`;
+        csvContent += `${pedido.iva.toFixed(2)},`;
+        csvContent += `${pedido.total.toFixed(2)}\n`;
+    });
+    
+    descargarCSV(csvContent, 'pedidos_CookiesWeb.csv');
+}
+
+// Función auxiliar para descargar el CSV
+function descargarCSV(contenido, nombreArchivo) {
+
+    // Crear un enlace de descarga
+    const encodedUri = encodeURI(contenido);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", nombreArchivo);
+    document.body.appendChild(link);
+    
+    // Hacer clic en el enlace para descargar
+    link.click();
+    
+    // Remover el enlace
+    document.body.removeChild(link);
+}
+
+
 // Cerrar modal al hacer clic fuera de él
 document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('modal-historial');
