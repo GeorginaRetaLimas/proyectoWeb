@@ -15,7 +15,7 @@ function cerrarHistorialPedidos() {
 // Función para cargar el historial de pedidos
 function cargarHistorialPedidos() {
     // Obtener todos los pedidos del localStorage
-    let pedidos = JSON.parse(localStorage.getItem('pedidos')) || [];
+    let pedidos = JSON.parse(localStorage.getItem('pedidos')) || [];  //'pedidos' fue guardado en tu archivo carrito.js cuando se confirma un pedido:
     
     // Ordenar por más recientes primero (usando el timestamp del folio)
     pedidos.sort((a, b) => {
@@ -101,7 +101,7 @@ function mostrarPedidos(pedidos) {
                 </div>
             </div>
         `;
-        
+        //agregar tarjeta al contenedor
         listaPedidos.appendChild(pedidoCard);
     });
 }

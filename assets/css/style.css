@@ -1265,3 +1265,68 @@ input:focus, select:focus {
                 grid-template-columns: 1fr;
             }
         }
+/* Exportación de pedidos a CSV */
+/* Estilos para la sección de acciones del modal */
+.modal-historial-actions {
+    display: flex;
+    gap: 15px;
+    padding: 20px;
+    background-color: #f8f5f3;
+    border-bottom: 2px solid #e0d5d0;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* Estilos base para botones de exportar */
+.btn-exportar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-exportar i {
+    font-size: 18px;
+}
+
+.btn-exportar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-exportar:active {
+    transform: translateY(0);
+}
+
+/* Botón exportar resumen */
+.btn-exportar-historial {
+    background: linear-gradient(135deg, #d19a9a 0%, #b88585 100%);
+    color: white;
+}
+
+.btn-exportar-historial:hover {
+    background: linear-gradient(135deg, #daa8a8 0%, #c79393 100%);
+}
+
+/* Responsive para botones */
+@media (max-width: 768px) {
+    .modal-historial-actions {
+        flex-direction: column;
+        padding: 15px;
+    }
+    
+    .btn-exportar {
+        width: 100%;
+        justify-content: center;
+        font-size: 13px;
+        padding: 10px 20px;
+    }
+}
