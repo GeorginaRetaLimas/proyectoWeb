@@ -86,70 +86,95 @@ function graficarProductosVendidos(){
                     backgroundColor: 'rgba(90, 45, 45, 0.9)',
                     titleColor: 'white',
                     bodyColor: 'white',
+                    // Definimos una función personalizada 
                     callbacks: {
+                        // Esta es la función que se encraga de generar el titulo cuando pasa el mouse sobre un elemento de la gráfica
                         title: function(tooltipItems) {
+                            // Obtenemos el index de donde este el mouse
                             const index = tooltipItems[0].dataIndex;
                             return topProductos[index].nombre_producto;
                         }
                     }
                 }
             },
+            // Estos son los datos escala de grafica
             scales: {
                 y: {
                     beginAtZero: true,
+                    // Rayitas que cortan la grafica horizontalmente
                     grid: {
                         color: 'rgba(90, 45, 45, 0.1)'
                     },
+                    // Son los numeros del lado de las Y
                     ticks: {
-                        color: '#5a2d2d',
+                        color: '#040000ff',
+                        // Aquí se especifica cuanto van a avanzar
                         stepSize: 1
                     },
+                    // Titulo que esta del lado de las Y
                     title: {
+                        // Que se muestre
                         display: true,
                         text: 'Unidades Vendidas',
                         color: '#5a2d2d'
                     }
                 },
                 x: {
+                    // No se muestran las lineas de corte verticales
                     grid: {
                         display: false
-                    },
-                    ticks: {
-                        color: '#5a2d2d',
-                        maxRotation: 45
                     }
                 }
             }
         }
     });
-
-    // Creamos la leyenda que son las letritas de abajo
-    crearLeyendaProductos(topProductos, 'graficaProductos');
 }
 
-// Gráfica de ventas por día
+// Gráfica de líneas de ventas por día
 function graficarVentasPorDia(){
+    // Obtenemos el array que contiene las ventas por dia
     const datos = obtenerVentasPorDia();
     
+    // Si no hay registros maandamos este mensaje de vacio
     if (!datos || datos.length === 0) {
         mostrarMensajeVacio('graficaVentas', 'No hay ventas registradas por día');
         return;
     }
 
+    // Obtenemos el contenido de la grafica de Ventas
     const ctx = document.getElementById('graficaVentas').getContext('2d');
 
+    // Volvemos a dibujar la grafica
     new Chart(ctx, {
-        type: 'line',
+        type: 'line', // Establecemos que es de líneas
         data: {
+            // Sacamos las fechas de cada punto de la grafica
             labels: datos.map(item => item.fecha),
+            
+            // Establecemos los valores a graficar 
             datasets: [{
+                // Ponemos el "titulo" de la grafica
                 label: 'Ingresos por Día ($)',
+
+                // Establecemos que lo que se graficara seran los ingresos
                 data: datos.map(item => item.ingresos),
+
+                // Obtenemos los colores de ventas del vector global
                 borderColor: colores.ventas,
-                backgroundColor: 'rgba(209, 154, 154, 0.1)',
+
+                // Color de lo coloreado bajo la linea
+                backgroundColor: 'rgba(255, 0, 0, 0.1)',
+
+                // Grosor de la rayita
                 borderWidth: 3,
-                tension: 0.4,
+                
+                // Que tan circular sera la rayita nada jsjsjsjs
+                tension: 0,
+
+                // llenado verdadero
                 fill: true,
+                
+                // Estilos del punto
                 pointBackgroundColor: 'rgba(90, 45, 45, 1)',
                 pointBorderColor: '#fff',
                 pointBorderWidth: 2,
@@ -157,7 +182,7 @@ function graficarVentasPorDia(){
                 pointHoverRadius: 7
             }]
         },
-        options: {
+        options: { 
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
@@ -171,6 +196,8 @@ function graficarVentasPorDia(){
                         }
                     }
                 },
+
+                // Contexto cuando se le pase el mouse por encima a un punto de la grafica
                 tooltip: {
                     backgroundColor: 'rgba(90, 45, 45, 0.9)',
                     titleColor: 'white',
@@ -185,15 +212,20 @@ function graficarVentasPorDia(){
             scales: {
                 y: {
                     beginAtZero: true,
+                    // Lineas horizontales
                     grid: {
                         color: 'rgba(90, 45, 45, 0.1)'
                     },
+
+                    // Valores de la escala
                     ticks: {
                         color: '#5a2d2d',
                         callback: function(value) {
                             return '$' + value.toFixed(2);
                         }
                     },
+                    
+                    // Titulo del lado de las Y
                     title: {
                         display: true,
                         text: 'Ingresos ($)',
@@ -201,12 +233,16 @@ function graficarVentasPorDia(){
                     }
                 },
                 x: {
+                    // No rayitas verticales
                     grid: {
                         display: false
                     },
+                    
                     ticks: {
                         color: '#5a2d2d'
                     },
+
+                    // Título del lado de las Y
                     title: {
                         display: true,
                         text: 'Fecha',
@@ -220,21 +256,31 @@ function graficarVentasPorDia(){
 
 // Gráfica de ventas por categoría
 function graficarVentasPorCategoria(){
+    // Nos traemos el vector con los datos de venta por categoria
     const datos = obtenerVentasPorCategoria();
     
+    // Mostramos mensaje si el vector esta vacío
     if (!datos || datos.length === 0) {
         mostrarMensajeVacio('graficaCategotias', 'No hay ventas por categoría');
         return;
     }
 
+    // Nos traemos el contexto del canva
     const ctx = document.getElementById('graficaCategotias').getContext('2d');
 
+    // Dibujamos la grafica en ese contexto
     new Chart(ctx, {
-        type: 'doughnut',
+        type: 'doughnut', // Grafica en forma de donita
         data: {
+            // Los nombres de las categorias que se grafican
             labels: datos.map(item => item.categoria),
+
+            // Datos que se van a graficar
             datasets: [{
+                // Establecemos el ingreso para ser graficado
                 data: datos.map(item => item.ingresos),
+                
+                // Establecemos estilos
                 backgroundColor: colores.categorias,
                 borderColor: colores.categorias.map(color => color.replace('0.8', '1')),
                 borderWidth: 2,
@@ -255,16 +301,20 @@ function graficarVentasPorCategoria(){
                         padding: 15
                     }
                 },
+
+                // Lo que se muestra cuando pasa el mouse por encima
                 tooltip: {
                     backgroundColor: 'rgba(90, 45, 45, 0.9)',
                     titleColor: 'white',
                     bodyColor: 'white',
                     callbacks: {
-                        label: function(context) {
-                            const value = context.parsed;
-                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                            const percentage = ((value / total) * 100).toFixed(1);
-                            return `${context.label}: $${value.toFixed(2)} (${percentage}%)`;
+
+                        // Mostramos la categoria, dinero y el porcentaje
+                        label: function(ctx) {
+                            const valor = ctx.parsed;
+                            const total = ctx.dataset.data.reduce((a, b) => a + b, 0);
+                            const porcentaje = ((valor / total) * 100).toFixed(1);
+                            return `${ctx.label}: $${valor.toFixed(2)} (${porcentaje}%)`;
                         }
                     }
                 }
@@ -275,15 +325,19 @@ function graficarVentasPorCategoria(){
 
 // Funciones de obtención de datos
 function obtenerProductosVendidos(){
+    // Nos traemos todos los datos de pedidos de localStorage
     let pedidos = JSON.parse(localStorage.getItem("pedidos")) || [];
     
+    // En caso de que no haya nada mostrar en consola
     if(pedidos.length === 0){
         console.log("No hay pedidos en el localStorage");
         return [];
     }
 
+    // Definimos el valor a retornar
     let productosVendidos = [];
 
+    // Recorremos to
     pedidos.forEach(pedido => {
         if (pedido.items && Array.isArray(pedido.items)) {
             pedido.items.forEach(item => {
@@ -461,53 +515,34 @@ function obtenerVentasPorCategoria(){
     }));
 }
 
-// Crear las letritas de abajo
-function crearLeyendaProductos(productos, contenedorId) {
-    const contenedor = document.getElementById(contenedorId).parentElement;
-    
-    // Remover leyenda existente
-    const leyendaExistente = contenedor.querySelector('.leyenda-grafica');
-    if (leyendaExistente) {
-        leyendaExistente.remove();
-    }
-    
-    const leyenda = document.createElement('div');
-    leyenda.className = 'leyenda-grafica';
-    leyenda.innerHTML = '<strong>Productos:</strong>';
-    
-    productos.forEach((producto, index) => {
-        const item = document.createElement('div');
-        item.className = 'item-leyenda';
-        item.innerHTML = `
-            <div class="color-leyenda" style="background-color: ${colores.productos[index]}"></div>
-            <span title="${producto.nombre_producto}">${acortarTexto(producto.nombre_producto, 12)}</span>
-        `;
-        leyenda.appendChild(item);
-    });
-    
-    contenedor.appendChild(leyenda);
-}
-
+// Cuando el texto sea mayor a la longitud ingresada se le pondran puntos ...
 function acortarTexto(texto, longitud) {
     return texto.length > longitud ? texto.substring(0, longitud) + '...' : texto;
 }
 
+// Funcion que se retorna cuando no hay datos que graficar
 function mostrarMensajeVacio(canvasId, mensaje) {
+    // Traemos el canvas
     const canvas = document.getElementById(canvasId);
+
+    // Si no encuentra la id del canva que avise
     if (!canvas) {
         console.error(`Canvas con id ${canvasId} no encontrado`);
         return;
     }
     
+    // Traemos el contexto, lo que este dibujado
     const ctx = canvas.getContext('2d');
     
-    // Limpiar canvas
+    // Limpiamos este contexto
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    // Mostrar mensaje
+    // Mostramos el mensaje de vacio
     ctx.fillStyle = '#7a5555';
     ctx.font = '16px Poppins';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
+
+    // Mandamos el mensaje
     ctx.fillText(mensaje, canvas.width / 2, canvas.height / 2);
 }
