@@ -16,6 +16,14 @@ body {
     padding: 0;
 }
 
+footer {
+    margin-top: 15px;
+    background-color:#c97778;
+    color: #e0d5d0;
+    text-align: center;
+    padding: 1%;
+}
+
 /* HEADER */
 .header {
     display: flex;

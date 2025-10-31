@@ -384,6 +384,7 @@ function obtenerVentasPorDia(){
             if (pedido.fecha && typeof pedido.fecha === 'string') {
                 let fechaObj;
                 
+                // Verificamos si tiene el formato de date
                 if (pedido.fecha.includes('/')) {
                     const partes = pedido.fecha.split(',')[0].split('/');
                     if (partes.length >= 3) {
@@ -545,4 +546,24 @@ function mostrarMensajeVacio(canvasId, mensaje) {
 
     // Mandamos el mensaje
     ctx.fillText(mensaje, canvas.width / 2, canvas.height / 2);
+}
+
+// Eliminar los datos del localStorage
+function BorrarDatos(){
+    Swal.fire({
+        title: '¿Eliminar los datos?',
+        text: "¿Estás seguro de que quieres eliminar todos los datos de la pagina?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d66f8eff',
+        cancelButtonColor: '#cda49fff',
+        confirmButtonText: 'Eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        // Si se quiere eliminar
+        if (result.isConfirmed) {
+            localStorage.clear();
+            window.location.reload();
+        }
+    });
 }

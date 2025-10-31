@@ -96,8 +96,7 @@ function cargarProductos() {
         // Guardar en localStorage
         localStorage.setItem("productos", JSON.stringify(productos));
 
-
-        contenedor.innerHTML = '<div class="vacio">No hay productos registrados</div>';
+        mostrarProductos(productos);
 
         return;
     }
@@ -316,6 +315,7 @@ function mostrarProductos(productos) {
     // Si no hay nada
     if (productos.length === 0) {
         contenedor.innerHTML = '<div class="vacio"><i class="bi bi-cup-hot"></i> No hay productos registrados</div>';
+        window.location.reload();
         return;
     }
     
