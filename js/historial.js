@@ -15,7 +15,7 @@ function cerrarHistorialPedidos() {
 // Función para cargar el historial de pedidos
 function cargarHistorialPedidos() {
     // Obtener todos los pedidos del localStorage
-    let pedidos = JSON.parse(localStorage.getItem('pedidos')) || [];  //'pedidos' fue guardado en tu archivo carrito.js cuando se confirma un pedido:
+    let pedidos = JSON.parse(localStorage.getItem('pedidos')) || []; 
     
     // Ordenar por más recientes primero (usando el timestamp del folio)
     pedidos.sort((a, b) => {
@@ -183,8 +183,8 @@ function exportarPedidosCSV() {
 
 // Función auxiliar para descargar el CSV
 function descargarCSV(contenido, nombreArchivo) {
-
     // Crear un enlace de descarga
+    //encodeURI(): Convierte caracteres especiales a un formato que los navegadores entienden en URLs
     const encodedUri = encodeURI(contenido);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
