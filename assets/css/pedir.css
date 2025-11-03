@@ -1,0 +1,108 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container-productos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    padding: 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.row {
+    display: flex;
+    gap: 20px;
+}
+
+.resumen-carrito {
+    background: #ffffff;
+    border-radius: 20px;
+    height: fit-content;
+    position: sticky;
+
+    margin: 2%;
+
+    top: 20px;
+}
+
+.tarjeta {
+    background: #ffffff;
+    border-radius: 20px;
+    border-color: black;
+    border: 1px solid black;
+
+    display: flex;
+    flex-direction: row;
+    position: relative;
+}
+
+.tarjeta:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(209, 154, 154, 0.3);
+}
+
+.imagen-producto {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    background-color: #f9f3f0;
+}
+
+.contenido-tarjeta {
+    padding: 25px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.nombre-producto {
+    font-size: 18px;
+    font-weight: 600;
+    color: #4b2c2c;
+    margin-bottom: 12px;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+}
+
+.info-producto {
+    font-size: 13px;
+    color: #7a5555;
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    background-color:#ffffff;
+    border-radius: 8px;
+    display: inline-block;
+}
+
+
+.stock {
+    font-size: 13px;
+    color: #a0695b;
+    margin-bottom: 20px;
+    padding: 6px 12px;
+    background-color: #fff5f5;
+    border-radius: 8px;
+    display: inline-block;
+}
+
+.botones {
+    display: flex;
+    gap: 12px;
+    margin-top: auto;
+}
+
+.btn-editar, .btn-eliminar {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}

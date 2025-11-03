@@ -96,7 +96,9 @@ function crearTarjeta(item) {
     tarjeta.className = "tarjeta";
 
     tarjeta.innerHTML = `
-        <img src="${item.imagen}" alt="${item.nombre}" class="imagen-producto" onerror="this.src='https://img.freepik.com/vector-premium/patron-fisuras-doodle-dulces-postres-helado-muffin-sobre-fondo-rosa_271392-107.jpg'">
+        <div class="container-imagen">
+            <img src="${item.imagen}" alt="${item.nombre}" class="imagen-producto" onerror="this.src='https://img.freepik.com/vector-premium/patron-fisuras-doodle-dulces-postres-helado-muffin-sobre-fondo-rosa_271392-107.jpg'">
+        </div>
         <div class="contenido-tarjeta">
             <div class="descripcion-producto">
                 No tenemos un lore ipsun No tenemos un lore ipsun No tenemos un lore ipsun No tenemos un lore ipsun 
