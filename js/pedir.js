@@ -118,7 +118,44 @@ function crearTarjeta(item) {
 }
 
 function eliminarProducto(itemId) {
-    let carr
+    // Mostramos una pantalla para pedir confirmación
+    Swal.fire({
+        title: '¿Eliminar producto carrito?',
+        text: "¿Estás seguro de que quieres eliminar este producto del carrito?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d66f8eff',
+        cancelButtonColor: '#cda49fff',
+        confirmButtonText: 'Eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        // Si se quiere eliminar el producto 
+        if (result.isConfirmed) {
+                    // Obtener el producto del carrito
+                    carritos = carritos.filter(item => item.id !== itemId);
+
+                    // Volver a guardar en localstorage
+                    localStorage.setItem("carritos", JSON.stringify(carritos));
+                    
+                    // Definir el carrito de usuario según los productos que tienen su id
+                    const carritoUsuario = carritos.filter(item => item.id_usuario === usuarioSesion.id_usuario);
+
+                    // Volver a dibujar la tabla y calcular el total
+                    mostrarCarrito(carritoUsuario);
+                    calcularTotal();
+                    
+                    // Mostrar aviso de eliminado
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Eliminado',
+                        text: 'Producto eliminado del carrito',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                
+            
+        }
+    });
 }
 
 // Función para cambiar la cantidad de un producto en el carrito
